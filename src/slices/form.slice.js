@@ -6,6 +6,7 @@ export const formSlice = createSlice({
   name: "form",
   initialState: {
     isActive: false,
+    recipes: [],
     imageUrl: "",
     title: "",
     tools: "",
@@ -25,8 +26,8 @@ export const formSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       const {
-        imageUrl,
         title,
+        imageUrl,
         tools,
         ingredients,
         directions,
@@ -37,6 +38,17 @@ export const formSlice = createSlice({
       state.tools = tools;
       state.ingredients = ingredients;
       state.directions = directions;
+
+      state.recipes = [
+        ...state.recipes,
+        {
+          title: title,
+          imageUrl: imageUrl,
+          tools: tools,
+          ingredients: ingredients,
+          directions: directions,
+        },
+      ];
     },
   },
 });
@@ -64,5 +76,6 @@ export const selectRecipe = (state) => ({
   ingredients: state.form.ingredients,
   directions: state.form.directions,
 });
+export const selectRecipes = (state) => state.form.recipes;
 
 export default formSlice.reducer;
