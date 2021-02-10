@@ -1,35 +1,28 @@
 /** @format */
 
 import React from "react";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col"
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import NewRecipe from "../new-recipe/new-recipe.component";
+import CardDeck from "react-bootstrap/CardDeck";
+import SavedRecipeCard from "../saved-recipe-card/saved-recipe-card.component";
 
+import { selectRecipe } from "../../slices/form.slice";
+import { useSelector } from "react-redux";
 
-const RecipeList = (props) => (
-    <Container>
-      <Row className="justify-content-center">
-      <Col md={10}>
-        <Card>
-          <Card.Header as="h5">Getting Starting</Card.Header>
-          <Card.Body>
-            <Card.Title>Add Your First Recipe</Card.Title>
-            <Card.Text>
-              Include a photo, required tools, ingredients, and directions.
-            </Card.Text>
-            <Form onSubmit={props.handleNewForm}>
-              <Button variant="primary" type="submit">
-                Create Recipe
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-        </Col>
-      </Row>
-    </Container>
-);
+const RecipeList = () => {
+  const recipe = useSelector(selectRecipe);
+
+  return (
+    <Row className="justify-content-center">
+      <Col md={6}>
+        <CardDeck>
+          <SavedRecipeCard />
+          {!recipe.title ? <NewRecipe /> : null}
+        </CardDeck>
+      </Col>
+    </Row>
+  );
+};
 
 export default RecipeList;
