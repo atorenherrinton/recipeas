@@ -14,7 +14,7 @@ const SavedRecipeCard = (props) => {
         <Card.Text>{props.directions}</Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        {props.ingredients.split(" ").map((ingredient) => (
+        {props.ingredients.split("\n").map((ingredient) => (
           <ListGroupItem>{ingredient}</ListGroupItem>
         ))}
       </ListGroup>

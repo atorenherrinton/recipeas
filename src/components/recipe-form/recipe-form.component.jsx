@@ -7,18 +7,18 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import firebase from "../../firebase/firebase";
 
 import {
-  setRecipe,
   deactivateForm,
-  selectRecipe,
+  selectRecipes,
 } from "../../slices/form.slice";
 import { useDispatch } from "react-redux";
 
 import { ButtonGroupContainer, ButtonContainer } from "./recipe-form.styles";
 
 const RecipeForm = () => {
-  const dispatch = useDispatch(selectRecipe);
+  const dispatch = useDispatch(selectRecipes);
   const [inputValue, setInputValue] = useState({
     imageUrl: "",
     title: "",
@@ -26,6 +26,8 @@ const RecipeForm = () => {
     ingredients: "",
     directions: "",
   });
+  const itemsRef = firebase.database().ref("items");
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -102,7 +104,7 @@ const RecipeForm = () => {
                   </ButtonContainer>
                   <Button
                     onClick={() => {
-                      dispatch(setRecipe(inputValue));
+                      itemsRef.push(inputValue);
                       dispatch(deactivateForm());
                     }}
                     variant="primary"

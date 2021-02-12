@@ -12,21 +12,23 @@ import { useSelector } from "react-redux";
 
 const RecipeList = () => {
   const recipes = useSelector(selectRecipes);
+  console.log(recipes)
 
   return (
     <Row className="justify-content-center">
-      <Col md={6}>
+      <Col md={8}>
         {!recipes.length > 0 ? (
           <NewRecipe />
         ) : (
           <CardColumns>
             {recipes.map((recipe) => (
               <SavedRecipeCard
-                title={recipe.title}
-                imageUrl={recipe.imageUrl}
-                tools={recipe.tools}
-                ingredients={recipe.ingredients}
-                directions={recipe.directions}
+                key={recipe['id']}
+                title={recipe['title']}
+                imageUrl={recipe['imageUrl']}
+                tools={recipe['tools']}
+                ingredients={recipe['ingredients']}
+                directions={recipe['directions']}
               />
             ))}
           </CardColumns>
