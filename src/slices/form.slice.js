@@ -6,6 +6,10 @@ export const formSlice = createSlice({
   name: "form",
   initialState: {
     isActive: false,
+    recipe: {
+      isOpen: false,
+      fullRecipe: {},
+    },
     recipes: [],
   },
   reducers: {
@@ -18,6 +22,14 @@ export const formSlice = createSlice({
     loadRecipes: (state, action) => {
       state.recipes = action.payload;
     },
+    openRecipe: (state, action) => {
+      state.recipe.isOpen = true;
+      state.recipe.fullRecipe = action.payload;
+    },
+    closeRecipe: (state) => {
+      state.recipe.isOpen = false;
+      state.recipe.fullRecipe = "";
+    },
   },
 });
 
@@ -25,6 +37,8 @@ export const {
   activateForm,
   deactivateForm,
   loadRecipes,
+  openRecipe,
+  closeRecipe,
 } = formSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -42,5 +56,6 @@ export const {
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectIsFormActive = (state) => state.form.isActive;
 export const selectRecipes = (state) => state.form.recipes;
+export const selectRecipe = (state) => state.form.recipe;
 
 export default formSlice.reducer;

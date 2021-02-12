@@ -20,11 +20,11 @@ const App = () => {
           id: item,
           title: items[item].title,
           imageUrl: items[item].imageUrl,
-          tools: items[item].tools,
+          description: items[item].description,
           ingredients: items[item].ingredients,
           directions: items[item].directions,
         });
-      };
+      }
       dispatch(loadRecipes(newState));
     });
   });

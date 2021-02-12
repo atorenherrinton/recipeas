@@ -9,10 +9,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import firebase from "../../firebase/firebase";
 
-import {
-  deactivateForm,
-  selectRecipes,
-} from "../../slices/form.slice";
+import { deactivateForm, selectRecipes } from "../../slices/form.slice";
 import { useDispatch } from "react-redux";
 
 import { ButtonGroupContainer, ButtonContainer } from "./recipe-form.styles";
@@ -22,7 +19,7 @@ const RecipeForm = () => {
   const [inputValue, setInputValue] = useState({
     imageUrl: "",
     title: "",
-    tools: "",
+    description: "",
     ingredients: "",
     directions: "",
   });
@@ -57,17 +54,18 @@ const RecipeForm = () => {
                   />
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlTextarea1">
-                  <Form.Label>Tools</Form.Label>
+                  <Form.Label>Description</Form.Label>
                   <Form.Control
                     onChange={(event) => {
                       const { value, name } = event.target;
                       setInputValue({ ...inputValue, [name]: value });
                     }}
-                    name="tools"
+                    name="description"
                     as="textarea"
                     rows={2}
                   />
                 </Form.Group>
+
                 <Form.Group controlId="exampleForm.ControlTextarea2">
                   <Form.Label>Ingredients</Form.Label>
                   <Form.Control
