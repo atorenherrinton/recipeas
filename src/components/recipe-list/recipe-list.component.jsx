@@ -8,7 +8,7 @@ import CardColumns from "react-bootstrap/CardColumns";
 import SavedRecipeCard from "../saved-recipe-card/saved-recipe-card.component";
 import FullRecipe from "../full-recipe/full-recipe.component";
 
-import { selectRecipe, selectRecipes } from "../../slices/form.slice";
+import { selectRecipe, selectRecipes } from "../../slices/recipe.slice";
 import { useSelector } from "react-redux";
 
 const RecipeList = () => {

@@ -2,8 +2,6 @@
 
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -27,7 +25,7 @@ const Header = () => {
 
         <Button
           onClick={() => dispatch(activateForm())}
-          variant="primary"
+          variant="outline-primary"
           type="submit"
         >
           Create Recipe

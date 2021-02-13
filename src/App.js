@@ -4,7 +4,7 @@ import Header from "./components/header/header.component";
 import Body from "./components/body/body.component";
 import { useEffect } from "react";
 import firebase from "./firebase/firebase";
-import { loadRecipes } from "./slices/form.slice";
+import { loadRecipes } from "./slices/recipe.slice";
 import { useDispatch } from "react-redux";
 
 const App = () => {

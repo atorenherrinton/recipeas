@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { closeRecipe } from "../../slices/form.slice";
+import { closeRecipe } from "../../slices/recipe.slice";
 import { ImageContainer } from "./full-recipe.styles";
 import ImageCarousel from "../image-carousel/image-carousel.component";
 

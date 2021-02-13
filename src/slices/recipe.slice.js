@@ -2,29 +2,31 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-export const formSlice = createSlice({
-  name: "form",
+export const recipeSlice = createSlice({
+  name: "recipe",
   initialState: {
-    isActive: false,
-    isValidated: false,
+    recipe: {
+      isOpen: false,
+      fullRecipe: {},
+    },
+    recipes: [],
   },
   reducers: {
-    activateForm: (state) => {
-      state.isActive = true;
+    loadRecipes: (state, action) => {
+      state.recipes = action.payload;
     },
-    deactivateForm: (state) => {
-      state.isActive = false;
+    openRecipe: (state, action) => {
+      state.recipe.isOpen = true;
+      state.recipe.fullRecipe = action.payload;
     },
-    validateForm: (state) => {
-      state.isValidated = true;
-    },
-    invalidateForm: (state) => {
-      state.isValidated = false;
+    closeRecipe: (state) => {
+      state.recipe.isOpen = false;
+      state.recipe.fullRecipe = "";
     },
   },
 });
 
-export const { activateForm, deactivateForm, validateForm,invalidateForm } = formSlice.actions;
+export const { loadRecipes, openRecipe, closeRecipe } = recipeSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -39,7 +41,7 @@ export const { activateForm, deactivateForm, validateForm,invalidateForm } = for
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectIsFormActive = (state) => state.form.isActive;
-export const selectIsValidated = (state) => state.form.isValidated;
+export const selectRecipes = (state) => state.recipe.recipes;
+export const selectRecipe = (state) => state.recipe.recipe;
 
-export default formSlice.reducer;
+export default recipeSlice.reducer;

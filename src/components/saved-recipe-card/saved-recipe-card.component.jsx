@@ -3,7 +3,8 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import { useDispatch } from "react-redux";
-import { openRecipe } from "../../slices/form.slice";
+import { openRecipe } from "../../slices/recipe.slice";
+import { LinkContainer } from "./saved-recipe-card.styles";
 
 const SavedRecipeCard = (props) => {
   const dispatch = useDispatch();
@@ -13,13 +14,15 @@ const SavedRecipeCard = (props) => {
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
         <Card.Text>{props.description}</Card.Text>
-        <Card.Link
-          onClick={() => {
-            dispatch(openRecipe(props));
-          }}
-        >
-          See Full Recipe
-        </Card.Link>
+        <LinkContainer>
+          <Card.Link
+            onClick={() => {
+              dispatch(openRecipe(props));
+            }}
+          >
+            See Full Recipe
+          </Card.Link>
+        </LinkContainer>
       </Card.Body>
     </Card>
   );

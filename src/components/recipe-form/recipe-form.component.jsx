@@ -1,21 +1,30 @@
 /** @format */
 
 import React, { useState } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  InputGroup,
+  Form,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 import firebase from "../../firebase/firebase";
-
-import { deactivateForm, selectRecipes } from "../../slices/form.slice";
-import { useDispatch } from "react-redux";
+import {
+  deactivateForm,
+  validateForm,
+  invalidateForm,
+  selectIsValidated,
+} from "../../slices/form.slice";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ButtonGroupContainer, ButtonContainer } from "./recipe-form.styles";
 
 const RecipeForm = () => {
-  const dispatch = useDispatch(selectRecipes);
+  const dispatch = useDispatch();
+  const isFormValidated = useSelector(selectIsValidated);
   const [inputValue, setInputValue] = useState({
     imageUrl: "",
     title: "",
@@ -25,6 +34,19 @@ const RecipeForm = () => {
   });
   const itemsRef = firebase.database().ref("items");
 
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+      dispatch(validateForm());
+      itemsRef.push(inputValue);
+      dispatch(deactivateForm());
+      dispatch(invalidateForm());
+    }
+  };
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -32,7 +54,10 @@ const RecipeForm = () => {
           <Card>
             <Card.Header as="h5">New Recipe</Card.Header>
             <Card.Body>
-              <Form>
+              <Form
+                onSubmit={handleSubmit}
+                validated={isFormValidated}
+              >
                 <Form.Group>
                   <Form.Label>Recipe Name</Form.Label>
                   <Form.Control
@@ -40,19 +65,40 @@ const RecipeForm = () => {
                       const { value, name } = event.target;
                       setInputValue({ ...inputValue, [name]: value });
                     }}
+                    type="text"
+                    placeholder="Add the name of your recipe here"
                     name="title"
+                    required
+                    controlId="validationCustom01"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Please enter a recipe name.
+                  </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group>
-                  <Form.Label>Image URL</Form.Label>
-                  <Form.Control
+
+                <label htmlFor="basic-url">Image URL</label>
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon3">
+                      https://
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
                     onChange={(event) => {
                       const { value, name } = event.target;
                       setInputValue({ ...inputValue, [name]: value });
                     }}
+                    type="text"
                     name="imageUrl"
+                    id="basic-url"
+                    aria-describedby="basic-addon3"
+                    controlId="validationCustom02"
                   />
-                </Form.Group>
+                  <Form.Control.Feedback type="invalid">
+                    Please enter a recipe description.
+                  </Form.Control.Feedback>
+                </InputGroup>
+
                 <Form.Group controlId="exampleForm.ControlTextarea1">
                   <Form.Label>Description</Form.Label>
                   <Form.Control
@@ -60,24 +106,41 @@ const RecipeForm = () => {
                       const { value, name } = event.target;
                       setInputValue({ ...inputValue, [name]: value });
                     }}
+                    type="text"
+                    placeholder="Add your description here"
                     name="description"
                     as="textarea"
                     rows={2}
+                    required
+                    controlId="validationCustom03"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Please enter a recipe description.
+                  </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group controlId="exampleForm.ControlTextarea2">
-                  <Form.Label>Ingredients</Form.Label>
-                  <Form.Control
+                <label>Ingredients</label>
+                <InputGroup className="mb-3">
+                  <FormControl
                     onChange={(event) => {
                       const { value, name } = event.target;
                       setInputValue({ ...inputValue, [name]: value });
                     }}
+                    type="text"
+                    placeholder="Add ingredients here"
                     name="ingredients"
-                    as="textarea"
-                    rows={4}
+                    aria-label="Ingredients list"
+                    aria-describedby="basic-addon2"
+                    required
+                    controlId="validationCustom04"
                   />
-                </Form.Group>
+                  <InputGroup.Append>
+                    <Button variant="outline-success">+</Button>
+                  </InputGroup.Append>
+                  <Form.Control.Feedback type="invalid">
+                    Please add at least one ingredient.
+                  </Form.Control.Feedback>
+                </InputGroup>
                 <Form.Group controlId="exampleForm.ControlTextarea3">
                   <Form.Label>Directions</Form.Label>
                   <Form.Control
@@ -85,29 +148,28 @@ const RecipeForm = () => {
                       const { value, name } = event.target;
                       setInputValue({ ...inputValue, [name]: value });
                     }}
+                    type="text"
                     name="directions"
                     as="textarea"
                     rows={8}
+                    required
+                    controlId="validationCustom05"
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Please add the directions
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <ButtonGroupContainer>
                   <ButtonContainer>
                     <Button
                       onClick={() => dispatch(deactivateForm())}
                       variant="secondary"
-                      type="reset"
                     >
                       Cancel
                     </Button>
                   </ButtonContainer>
-                  <Button
-                    onClick={() => {
-                      itemsRef.push(inputValue);
-                      dispatch(deactivateForm());
-                    }}
-                    variant="primary"
-                  >
-                    Save changes
+                  <Button variant="primary" type="submit">
+                    Save
                   </Button>
                 </ButtonGroupContainer>
               </Form>
