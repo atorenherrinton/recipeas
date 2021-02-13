@@ -34,10 +34,10 @@ const FullRecipe = (props) => {
                 onClick={() => {
                   dispatch(closeRecipe());
                 }}
-                variant="outline-primary"
+                variant="outline-secondary"
                 block
               >
-                Close recipe
+                Close Recipe
               </Button>
             </CardContainer>
           </Card>

@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import Card from "react-bootstrap/Card";
+import { Card, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { openRecipe } from "../../slices/recipe.slice";
 import { LinkContainer } from "./saved-recipe-card.styles";
@@ -15,13 +15,15 @@ const SavedRecipeCard = (props) => {
         <Card.Title>{props.title}</Card.Title>
         <Card.Text>{props.description}</Card.Text>
         <LinkContainer>
-          <Card.Link
+          <Button
+            variant="outline-secondary"
+            block
             onClick={() => {
               dispatch(openRecipe(props));
             }}
           >
             See Full Recipe
-          </Card.Link>
+          </Button>
         </LinkContainer>
       </Card.Body>
     </Card>
