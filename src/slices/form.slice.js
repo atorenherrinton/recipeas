@@ -6,7 +6,7 @@ export const formSlice = createSlice({
   name: "form",
   initialState: {
     isActive: false,
-    isValidated: false,
+    isValidated: true,
   },
   reducers: {
     activateForm: (state) => {
@@ -24,7 +24,12 @@ export const formSlice = createSlice({
   },
 });
 
-export const { activateForm, deactivateForm, validateForm,invalidateForm } = formSlice.actions;
+export const {
+  activateForm,
+  deactivateForm,
+  validateForm,
+  invalidateForm,
+} = formSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This

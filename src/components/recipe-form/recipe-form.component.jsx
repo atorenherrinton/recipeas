@@ -37,13 +37,13 @@ const RecipeForm = () => {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
+      dispatch(invalidateForm());
       event.preventDefault();
       event.stopPropagation();
     } else {
       dispatch(validateForm());
       itemsRef.push(inputValue);
       dispatch(deactivateForm());
-      dispatch(invalidateForm());
     }
   };
 
@@ -55,8 +55,9 @@ const RecipeForm = () => {
             <Card.Header as="h5">New Recipe</Card.Header>
             <Card.Body>
               <Form
+                noValidate
+                validated={!isFormValidated}
                 onSubmit={handleSubmit}
-                validated={isFormValidated}
               >
                 <Form.Group>
                   <Form.Label>Recipe Name</Form.Label>
@@ -86,7 +87,10 @@ const RecipeForm = () => {
                   <FormControl
                     onChange={(event) => {
                       const { value, name } = event.target;
-                      setInputValue({ ...inputValue, [name]: value });
+                      setInputValue({
+                        ...inputValue,
+                        [name]: "https://" + value.replace("https://", ""),
+                      });
                     }}
                     type="text"
                     name="imageUrl"
