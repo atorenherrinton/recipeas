@@ -14,17 +14,16 @@ const SavedRecipeCard = (props) => {
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
         <Card.Text>{props.description}</Card.Text>
-        <LinkContainer>
-          <Button
-            variant="outline-secondary"
-            block
-            onClick={() => {
-              dispatch(openRecipe(props));
-            }}
-          >
-            See Full Recipe
-          </Button>
-        </LinkContainer>
+
+        <Button
+          variant="outline-secondary"
+          block
+          onClick={() => {
+            dispatch(openRecipe(props));
+          }}
+        >
+          See Full Recipe
+        </Button>
       </Card.Body>
     </Card>
   );

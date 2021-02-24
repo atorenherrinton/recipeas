@@ -19,14 +19,16 @@ const FullRecipe = (props) => {
         <Col sm={8}>
           <Card>
             <ImageCarousel image={props.imageUrl} />
-            <CardContainer>
-              <h5>{props.title}</h5>
+            <Card.Body>
+              <h4>{props.title}</h4>
               <p>{props.description}</p>
+              <h5>Ingredients</h5>
               <ul>
-                {props.ingredients.split("\n").map((ingredient) => (
+                {props.ingredients.map((ingredient) => (
                   <li key={ingredient}>{ingredient}</li>
                 ))}
               </ul>
+              <h5>Directions</h5>
               {props.directions.split("\n").map((step) => (
                 <p key={step}>{step}</p>
               ))}
@@ -39,7 +41,7 @@ const FullRecipe = (props) => {
               >
                 Close Recipe
               </Button>
-            </CardContainer>
+            </Card.Body>
           </Card>
         </Col>
       </Row>

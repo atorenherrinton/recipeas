@@ -23,13 +23,13 @@ const Header = () => {
         <Button variant="outline-success">Search</Button>
       </Form>
 
-        <Button
-          onClick={() => dispatch(activateForm())}
-          variant="outline-primary"
-          type="submit"
-        >
-          Create Recipe
-        </Button>
+      <Button
+        onClick={() => dispatch(activateForm())}
+        variant="outline-primary"
+        type="submit"
+      >
+        Create Recipe
+      </Button>
 
       {/* <DropdownButton
         menuAlign="right"

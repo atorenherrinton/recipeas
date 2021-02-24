@@ -12,6 +12,3 @@ export const DirectionContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const LinkContainer = styled.div`
-  cursor: pointer;
-`;

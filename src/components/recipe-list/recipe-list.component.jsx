@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 const RecipeList = () => {
   const recipes = useSelector(selectRecipes);
   const recipe = useSelector(selectRecipe);
-  console.log(recipe)
   return (
     <Row className="justify-content-center">
       <Col md={8}>

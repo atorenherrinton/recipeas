@@ -11,6 +11,7 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import ChipList from "../chip-list/chip-list.component";
 import firebase from "../../firebase/firebase";
 import {
   deactivateForm,
@@ -20,19 +21,32 @@ import {
 } from "../../slices/form.slice";
 import { useDispatch, useSelector } from "react-redux";
 
-import { ButtonGroupContainer, ButtonContainer } from "./recipe-form.styles";
+import {
+  IngredientContainer,
+  ButtonGroupContainer,
+  ButtonContainer,
+} from "./recipe-form.styles";
 
 const RecipeForm = () => {
   const dispatch = useDispatch();
   const isFormValidated = useSelector(selectIsValidated);
+  const [ingredient, setIngredient] = useState("");
   const [inputValue, setInputValue] = useState({
     imageUrl: "",
     title: "",
     description: "",
-    ingredients: "",
+    ingredients: [],
     directions: "",
   });
   const itemsRef = firebase.database().ref("items");
+
+  const addIngredient = () => {
+    setInputValue({
+      ...inputValue,
+      ["ingredients"]: [...inputValue.ingredients, ingredient],
+    });
+    document.querySelector("#ingredients").value = "";
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -70,7 +84,7 @@ const RecipeForm = () => {
                     placeholder="Add the name of your recipe here"
                     name="title"
                     required
-                    controlId="validationCustom01"
+                    controlid="validationCustom01"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please enter a recipe name.
@@ -96,14 +110,15 @@ const RecipeForm = () => {
                     name="imageUrl"
                     id="basic-url"
                     aria-describedby="basic-addon3"
-                    controlId="validationCustom02"
+                    controlid="validationCustom02"
+                    required
                   />
                   <Form.Control.Feedback type="invalid">
-                    Please enter a recipe description.
+                    Please enter an image URL.
                   </Form.Control.Feedback>
                 </InputGroup>
 
-                <Form.Group controlId="exampleForm.ControlTextarea1">
+                <Form.Group controlid="exampleForm.ControlTextarea1">
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     onChange={(event) => {
@@ -116,36 +131,47 @@ const RecipeForm = () => {
                     as="textarea"
                     rows={2}
                     required
-                    controlId="validationCustom03"
+                    controlid="validationCustom03"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please enter a recipe description.
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <label>Ingredients</label>
-                <InputGroup className="mb-3">
-                  <FormControl
-                    onChange={(event) => {
-                      const { value, name } = event.target;
-                      setInputValue({ ...inputValue, [name]: value });
-                    }}
-                    type="text"
-                    placeholder="Add ingredients here"
-                    name="ingredients"
-                    aria-label="Ingredients list"
-                    aria-describedby="basic-addon2"
-                    required
-                    controlId="validationCustom04"
-                  />
-                  <InputGroup.Append>
-                    <Button variant="outline-success">+</Button>
-                  </InputGroup.Append>
-                  <Form.Control.Feedback type="invalid">
-                    Please add at least one ingredient.
-                  </Form.Control.Feedback>
-                </InputGroup>
-                <Form.Group controlId="exampleForm.ControlTextarea3">
+                <IngredientContainer>
+                  <label>Ingredients</label>
+                  <InputGroup className="mb-1">
+                    <FormControl
+                      onChange={(event) => {
+                        setIngredient(event.target.value);
+                      }}
+                      id="ingredients"
+                      type="text"
+                      placeholder="Add ingredients here"
+                      name="ingredients"
+                      aria-label="Ingredients list"
+                      aria-describedby="basic-addon2"
+                      // required
+                      controlid="validationCustom04"
+                    />
+                    <InputGroup.Append>
+                      <Button
+                        onClick={() => {
+                          addIngredient();
+                          setIngredient("");
+                        }}
+                        variant="outline-success"
+                      >
+                        +
+                      </Button>
+                    </InputGroup.Append>
+                    <Form.Control.Feedback type="invalid">
+                      Please add at least one ingredient.
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                  <ChipList ingredients={inputValue.ingredients} />
+                </IngredientContainer>
+                <Form.Group controlid="exampleForm.ControlTextarea3">
                   <Form.Label>Directions</Form.Label>
                   <Form.Control
                     onChange={(event) => {
@@ -157,7 +183,7 @@ const RecipeForm = () => {
                     as="textarea"
                     rows={8}
                     required
-                    controlId="validationCustom05"
+                    controlid="validationCustom05"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please add the directions
@@ -166,7 +192,10 @@ const RecipeForm = () => {
                 <ButtonGroupContainer>
                   <ButtonContainer>
                     <Button
-                      onClick={() => dispatch(deactivateForm())}
+                      onClick={() => {
+                        dispatch(validateForm());
+                        dispatch(deactivateForm());
+                      }}
                       variant="secondary"
                     >
                       Cancel
