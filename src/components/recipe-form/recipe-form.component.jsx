@@ -11,16 +11,15 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import ChipList from "../chip-list/chip-list.component";
+import List from "../list/list.component";
 import firebase from "../../firebase/firebase";
 import {
   addIngredient,
   setIngredient,
   setFullRecipe,
   setUrl,
-  selectIngredient,
-  selectIngredients,
   selectFullRecipe,
+  clearForm,
 } from "../../slices/input.slice";
 import {
   deactivateForm,
@@ -40,8 +39,6 @@ const RecipeForm = () => {
   const dispatch = useDispatch();
   const isFormValidated = useSelector(selectIsValidated);
   const fullRecipe = useSelector(selectFullRecipe);
-  const ingredient = useSelector(selectIngredient);
-  const ingredients = useSelector(selectIngredients);
   const itemsRef = firebase.database().ref("items");
 
   const handleSubmit = (event) => {
@@ -53,7 +50,7 @@ const RecipeForm = () => {
     } else {
       dispatch(validateForm());
       itemsRef.push(fullRecipe);
-
+      dispatch(clearForm());
       dispatch(deactivateForm());
     }
   };
@@ -96,7 +93,7 @@ const RecipeForm = () => {
                   </InputGroup.Prepend>
                   <FormControl
                     onChange={(event) => {
-                      setUrl(event.target);
+                      dispatch(setUrl(event.target));
                     }}
                     type="text"
                     name="imageUrl"
@@ -136,6 +133,12 @@ const RecipeForm = () => {
                       onChange={(event) => {
                         dispatch(setIngredient(event.target));
                       }}
+                      onKeyPress={(event) => {
+                        if (event.key === "Enter") {
+                          dispatch(addIngredient());
+                          document.querySelector("#ingredients").value = "";
+                        }
+                      }}
                       id="ingredients"
                       type="text"
                       placeholder="Add ingredients here"
@@ -151,7 +154,7 @@ const RecipeForm = () => {
                           dispatch(addIngredient());
                           document.querySelector("#ingredients").value = "";
                         }}
-                        variant="outline-success"
+                        variant="outline-secondary"
                       >
                         +
                       </Button>
@@ -160,7 +163,7 @@ const RecipeForm = () => {
                       Please add at least one ingredient.
                     </Form.Control.Feedback>
                   </InputGroup>
-                  <ChipList />
+                  <List />
                 </IngredientContainer>
                 <Form.Group controlid="exampleForm.ControlTextarea3">
                   <Form.Label>Directions</Form.Label>
@@ -185,6 +188,7 @@ const RecipeForm = () => {
                       onClick={() => {
                         dispatch(validateForm());
                         dispatch(deactivateForm());
+                        dispatch(clearForm());
                       }}
                       variant="secondary"
                     >

@@ -16,14 +16,26 @@ export const inputSlice = createSlice({
   },
   reducers: {
     addIngredient: (state) => {
+      if (state.ingredient.length > 0) {
+        state.fullRecipe.ingredients = [
+          ...state.fullRecipe.ingredients,
+          state.ingredient,
+        ];
+        state.ingredient = "";
+      }
+    },
+    deleteIngredient: (state, action) => {
       state.fullRecipe.ingredients = [
-        ...state.fullRecipe.ingredients,
-        state.ingredient,
+        ...state.fullRecipe.ingredients.filter(
+          (ingredient) => ingredient !== action.payload
+        ),
       ];
-      state.ingredient = "";
     },
     setIngredient: (state, action) => {
       state.ingredient = action.payload.value;
+    },
+    setHovered: (state) => {
+      state.item.isHovered = !state.item.isHovered;
     },
     setUrl: (state, action) => {
       const { value, name } = action.payload;
@@ -36,14 +48,25 @@ export const inputSlice = createSlice({
       const { value, name } = action.payload;
       state.fullRecipe = { ...state.fullRecipe, [name]: value };
     },
+    clearForm: (state) => {
+      state.fullRecipe = {
+        imageUrl: "",
+        title: "",
+        description: "",
+        ingredients: [],
+        directions: "",
+      };
+    },
   },
 });
 
 export const {
   addIngredient,
+  deleteIngredient,
   setIngredient,
   setUrl,
   setFullRecipe,
+  clearForm,
 } = inputSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
