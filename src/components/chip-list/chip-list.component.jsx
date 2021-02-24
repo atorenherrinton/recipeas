@@ -1,14 +1,17 @@
 /** @format */
 
 import React from "react";
-import Chip from "../chip/chip.component"
+import { useSelector } from "react-redux";
+import Chip from "../chip/chip.component";
+import { selectIngredients } from "../../slices/input.slice";
 import { ChipListContainer } from "./chip-list.styles";
 
-const ChipList = (props) => {
+const ChipList = () => {
+  const ingredients = useSelector(selectIngredients);
   return (
     <ChipListContainer>
-      {props.ingredients.map((ingredient) => (
-        <Chip ingredient={ingredient} />
+      {ingredients.map((ingredient) => (
+        <Chip key={ingredient} ingredient={ingredient} />
       ))}
     </ChipListContainer>
   );

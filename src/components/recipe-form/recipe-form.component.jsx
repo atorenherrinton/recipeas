@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Container,
   Row,
@@ -13,6 +13,15 @@ import {
 } from "react-bootstrap";
 import ChipList from "../chip-list/chip-list.component";
 import firebase from "../../firebase/firebase";
+import {
+  addIngredient,
+  setIngredient,
+  setFullRecipe,
+  setUrl,
+  selectIngredient,
+  selectIngredients,
+  selectFullRecipe,
+} from "../../slices/input.slice";
 import {
   deactivateForm,
   validateForm,
@@ -30,23 +39,10 @@ import {
 const RecipeForm = () => {
   const dispatch = useDispatch();
   const isFormValidated = useSelector(selectIsValidated);
-  const [ingredient, setIngredient] = useState("");
-  const [inputValue, setInputValue] = useState({
-    imageUrl: "",
-    title: "",
-    description: "",
-    ingredients: [],
-    directions: "",
-  });
+  const fullRecipe = useSelector(selectFullRecipe);
+  const ingredient = useSelector(selectIngredient);
+  const ingredients = useSelector(selectIngredients);
   const itemsRef = firebase.database().ref("items");
-
-  const addIngredient = () => {
-    setInputValue({
-      ...inputValue,
-      ["ingredients"]: [...inputValue.ingredients, ingredient],
-    });
-    document.querySelector("#ingredients").value = "";
-  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -56,7 +52,8 @@ const RecipeForm = () => {
       event.stopPropagation();
     } else {
       dispatch(validateForm());
-      itemsRef.push(inputValue);
+      itemsRef.push(fullRecipe);
+
       dispatch(deactivateForm());
     }
   };
@@ -77,8 +74,7 @@ const RecipeForm = () => {
                   <Form.Label>Recipe Name</Form.Label>
                   <Form.Control
                     onChange={(event) => {
-                      const { value, name } = event.target;
-                      setInputValue({ ...inputValue, [name]: value });
+                      dispatch(setFullRecipe(event.target));
                     }}
                     type="text"
                     placeholder="Add the name of your recipe here"
@@ -100,11 +96,7 @@ const RecipeForm = () => {
                   </InputGroup.Prepend>
                   <FormControl
                     onChange={(event) => {
-                      const { value, name } = event.target;
-                      setInputValue({
-                        ...inputValue,
-                        [name]: "https://" + value.replace("https://", ""),
-                      });
+                      setUrl(event.target);
                     }}
                     type="text"
                     name="imageUrl"
@@ -122,8 +114,7 @@ const RecipeForm = () => {
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     onChange={(event) => {
-                      const { value, name } = event.target;
-                      setInputValue({ ...inputValue, [name]: value });
+                      dispatch(setFullRecipe(event.target));
                     }}
                     type="text"
                     placeholder="Add your description here"
@@ -143,7 +134,7 @@ const RecipeForm = () => {
                   <InputGroup className="mb-1">
                     <FormControl
                       onChange={(event) => {
-                        setIngredient(event.target.value);
+                        dispatch(setIngredient(event.target));
                       }}
                       id="ingredients"
                       type="text"
@@ -157,8 +148,8 @@ const RecipeForm = () => {
                     <InputGroup.Append>
                       <Button
                         onClick={() => {
-                          addIngredient();
-                          setIngredient("");
+                          dispatch(addIngredient());
+                          document.querySelector("#ingredients").value = "";
                         }}
                         variant="outline-success"
                       >
@@ -169,14 +160,13 @@ const RecipeForm = () => {
                       Please add at least one ingredient.
                     </Form.Control.Feedback>
                   </InputGroup>
-                  <ChipList ingredients={inputValue.ingredients} />
+                  <ChipList />
                 </IngredientContainer>
                 <Form.Group controlid="exampleForm.ControlTextarea3">
                   <Form.Label>Directions</Form.Label>
                   <Form.Control
                     onChange={(event) => {
-                      const { value, name } = event.target;
-                      setInputValue({ ...inputValue, [name]: value });
+                      dispatch(setFullRecipe(event.target));
                     }}
                     type="text"
                     name="directions"
