@@ -52,7 +52,7 @@ const RecipeForm = () => {
     setTimeout(() => {
       dispatch(resetIngredient());
       dispatch(resetIngredientExists());
-    }, 1500);
+    }, 1750);
   }
 
   const fullRecipe = useSelector(selectFullRecipe);
@@ -72,7 +72,6 @@ const RecipeForm = () => {
     }
   };
 
-  const [show, setShow] = useState(true);
 
   return (
     <Container>

@@ -21,6 +21,7 @@ const RecipeList = () => {
           <NewRecipe />
         ) : recipe.isOpen ? (
           <FullRecipe
+            id={recipe.fullRecipe.id}
             title={recipe.fullRecipe.title}
             imageUrl={recipe.fullRecipe.imageUrl}
             description={recipe.fullRecipe.description}
