@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Row,
@@ -10,6 +10,7 @@ import {
   Form,
   FormControl,
   Button,
+  Alert,
 } from "react-bootstrap";
 import List from "../list/list.component";
 import firebase from "../../firebase/firebase";
@@ -18,7 +19,11 @@ import {
   setIngredient,
   setFullRecipe,
   setUrl,
+  resetIngredient,
+  resetIngredientExists,
   selectFullRecipe,
+  selectIngredient,
+  selectIngredientExists,
   clearForm,
 } from "../../slices/input.slice";
 import {
@@ -30,14 +35,26 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  IngredientContainer,
   ButtonGroupContainer,
   ButtonContainer,
+  AlertContainer,
+  ListContainer,
 } from "./recipe-form.styles";
+
+import { Add } from "@material-ui/icons";
 
 const RecipeForm = () => {
   const dispatch = useDispatch();
   const isFormValidated = useSelector(selectIsValidated);
+  const ingredient = useSelector(selectIngredient);
+  const ingredientExists = useSelector(selectIngredientExists);
+  if (ingredientExists) {
+    setTimeout(() => {
+      dispatch(resetIngredient());
+      dispatch(resetIngredientExists());
+    }, 1500);
+  }
+
   const fullRecipe = useSelector(selectFullRecipe);
   const itemsRef = firebase.database().ref("items");
 
@@ -55,6 +72,8 @@ const RecipeForm = () => {
     }
   };
 
+  const [show, setShow] = useState(true);
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -64,7 +83,7 @@ const RecipeForm = () => {
             <Card.Body>
               <Form
                 noValidate
-                validated={!isFormValidated}
+                // validated={!isFormValidated}
                 onSubmit={handleSubmit}
               >
                 <Form.Group>
@@ -125,46 +144,52 @@ const RecipeForm = () => {
                     Please enter a recipe description.
                   </Form.Control.Feedback>
                 </Form.Group>
+                <label>Ingredients</label>
+                <InputGroup className="mb-1">
+                  <FormControl
+                    onChange={(event) => {
+                      dispatch(setIngredient(event.target));
+                    }}
+                    onKeyPress={(event) => {
+                      if (event.key === "Enter") {
+                        dispatch(addIngredient());
+                      }
+                    }}
+                    id="ingredients"
+                    type="text"
+                    placeholder="Add ingredients here"
+                    name="ingredients"
+                    aria-label="Ingredients list"
+                    aria-describedby="basic-addon2"
+                    // required
+                    controlid="validationCustom04"
+                  />
 
-                <IngredientContainer>
-                  <label>Ingredients</label>
-                  <InputGroup className="mb-1">
-                    <FormControl
-                      onChange={(event) => {
-                        dispatch(setIngredient(event.target));
+                  <InputGroup.Append>
+                    <Button
+                      style={{ borderRadius: "0 0.25rem 0.25rem 0" }}
+                      onClick={() => {
+                        dispatch(addIngredient());
                       }}
-                      onKeyPress={(event) => {
-                        if (event.key === "Enter") {
-                          dispatch(addIngredient());
-                          document.querySelector("#ingredients").value = "";
-                        }
-                      }}
-                      id="ingredients"
-                      type="text"
-                      placeholder="Add ingredients here"
-                      name="ingredients"
-                      aria-label="Ingredients list"
-                      aria-describedby="basic-addon2"
-                      // required
-                      controlid="validationCustom04"
-                    />
-                    <InputGroup.Append>
-                      <Button
-                        onClick={() => {
-                          dispatch(addIngredient());
-                          document.querySelector("#ingredients").value = "";
-                        }}
-                        variant="outline-secondary"
-                      >
-                        +
-                      </Button>
-                    </InputGroup.Append>
-                    <Form.Control.Feedback type="invalid">
-                      Please add at least one ingredient.
-                    </Form.Control.Feedback>
-                  </InputGroup>
+                      variant="outline-secondary"
+                    >
+                      <Add fontSize="small" />
+                    </Button>
+                  </InputGroup.Append>
+                  <Form.Control.Feedback type="invalid">
+                    Please add at least one ingredient.
+                  </Form.Control.Feedback>
+                </InputGroup>
+                {ingredientExists ? (
+                  <AlertContainer>
+                    <Alert variant="warning">
+                      You've already entered <strong>{ingredient}</strong>
+                    </Alert>
+                  </AlertContainer>
+                ) : null}
+                <ListContainer>
                   <List />
-                </IngredientContainer>
+                </ListContainer>
                 <Form.Group controlid="exampleForm.ControlTextarea3">
                   <Form.Label>Directions</Form.Label>
                   <Form.Control

@@ -7,7 +7,6 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { closeRecipe } from "../../slices/recipe.slice";
-import { CardContainer, ImageContainer } from "./full-recipe.styles";
 import ImageCarousel from "../image-carousel/image-carousel.component";
 import { Card } from "react-bootstrap";
 
@@ -24,13 +23,13 @@ const FullRecipe = (props) => {
               <p>{props.description}</p>
               <h5>Ingredients</h5>
               <ul>
-                {props.ingredients.map((ingredient) => (
-                  <li key={ingredient}>{ingredient}</li>
+                {props.ingredients.map((ingredient, idx) => (
+                  <li key={idx}>{ingredient}</li>
                 ))}
               </ul>
               <h5>Directions</h5>
-              {props.directions.split("\n").map((step) => (
-                <p key={step}>{step}</p>
+              {props.directions.split("\n").map((step, idx) => (
+                <p key={idx}>{step}</p>
               ))}
               <Button
                 onClick={() => {

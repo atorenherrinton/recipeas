@@ -29,9 +29,9 @@ const RecipeList = () => {
           />
         ) : (
           <CardColumns>
-            {recipes.map((recipe) => (
+            {recipes.map((recipe, idx) => (
               <SavedRecipeCard
-                key={recipe}
+                key={idx}
                 id={recipe.id}
                 title={recipe.title}
                 imageUrl={recipe.imageUrl}

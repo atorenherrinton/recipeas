@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const inputSlice = createSlice({
   name: "input",
   initialState: {
+    ingredientExists: false,
     ingredient: "",
     fullRecipe: {
       imageUrl: "",
@@ -16,13 +17,19 @@ export const inputSlice = createSlice({
   },
   reducers: {
     addIngredient: (state) => {
-      if (state.ingredient.length > 0) {
+      if (
+        state.ingredient.length > 0 &&
+        !state.fullRecipe.ingredients.includes(state.ingredient)
+      ) {
         state.fullRecipe.ingredients = [
           ...state.fullRecipe.ingredients,
           state.ingredient,
         ];
         state.ingredient = "";
+      } else if (state.fullRecipe.ingredients.includes(state.ingredient)) {
+        state.ingredientExists = true;
       }
+      document.querySelector("#ingredients").value = "";
     },
     deleteIngredient: (state, action) => {
       state.fullRecipe.ingredients = [
@@ -30,6 +37,12 @@ export const inputSlice = createSlice({
           (ingredient) => ingredient !== action.payload
         ),
       ];
+    },
+    resetIngredient: (state) => {
+      state.ingredient = "";
+    },
+    resetIngredientExists: (state) => {
+      state.ingredientExists = false;
     },
     setIngredient: (state, action) => {
       state.ingredient = action.payload.value;
@@ -65,6 +78,8 @@ export const {
   deleteIngredient,
   setIngredient,
   setUrl,
+  resetIngredient,
+  resetIngredientExists,
   setFullRecipe,
   clearForm,
 } = inputSlice.actions;
@@ -85,5 +100,6 @@ export const {
 export const selectIngredient = (state) => state.input.ingredient;
 export const selectIngredients = (state) => state.input.fullRecipe.ingredients;
 export const selectFullRecipe = (state) => state.input.fullRecipe;
+export const selectIngredientExists = (state) => state.input.ingredientExists;
 
 export default inputSlice.reducer;

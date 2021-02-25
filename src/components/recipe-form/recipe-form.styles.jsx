@@ -2,12 +2,12 @@
 
 import styled from "styled-components";
 
-export const IngredientContainer = styled.div`
-  padding: 0;
+export const AlertContainer = styled.div`
+  margin-top: 0.75rem;
 `;
 
-export const InputContainer = styled.div`
-  margin: 0;
+export const ListContainer = styled.div`
+  margin-top: 0.75rem;
 `;
 
 export const ButtonGroupContainer = styled.div`
