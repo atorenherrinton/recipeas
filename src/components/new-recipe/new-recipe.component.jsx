@@ -1,9 +1,9 @@
 /** @format */
 
 import React from "react";
-import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { activateForm } from "../../slices/form.slice";
+import Button from "react-bootstrap/Button";
 import {
   IntroContainer,
   NewRecipeContainer,

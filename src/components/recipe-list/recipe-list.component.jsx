@@ -1,15 +1,12 @@
 /** @format */
 
 import React from "react";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { useSelector } from "react-redux";
+import { selectRecipe, selectRecipes } from "../../slices/recipe.slice";
+import { CardColumns, Col, Row } from "react-bootstrap";
 import NewRecipe from "../new-recipe/new-recipe.component";
-import CardColumns from "react-bootstrap/CardColumns";
 import SavedRecipeCard from "../saved-recipe-card/saved-recipe-card.component";
 import FullRecipe from "../full-recipe/full-recipe.component";
-
-import { selectRecipe, selectRecipes } from "../../slices/recipe.slice";
-import { useSelector } from "react-redux";
 
 const RecipeList = () => {
   const recipes = useSelector(selectRecipes);

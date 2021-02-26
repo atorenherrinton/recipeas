@@ -1,10 +1,10 @@
 /** @format */
 
 import React from "react";
-import { Card, Button, Dropdown, ButtonGroup } from "react-bootstrap";
+import firebase from "../../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { openRecipe } from "../../slices/recipe.slice";
-import firebase from "../../firebase/firebase";
+import { Card, Button, Dropdown, ButtonGroup } from "react-bootstrap";
 
 const SavedRecipeCard = (props) => {
   const dispatch = useDispatch();

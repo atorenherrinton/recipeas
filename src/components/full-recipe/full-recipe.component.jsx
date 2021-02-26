@@ -1,18 +1,18 @@
 /** @format */
 
 import React from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Dropdown,
-  ButtonGroup,
-} from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { closeRecipe, deleteRecipe } from "../../slices/recipe.slice";
-import { Card } from "react-bootstrap";
+import { closeRecipe } from "../../slices/recipe.slice";
 import firebase from "../../firebase/firebase";
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  Col,
+  Container,
+  Dropdown,
+  Row,
+} from "react-bootstrap";
 
 const FullRecipe = (props) => {
   const dispatch = useDispatch();

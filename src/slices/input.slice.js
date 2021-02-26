@@ -7,6 +7,13 @@ export const inputSlice = createSlice({
   initialState: {
     ingredientExists: false,
     ingredient: "",
+    fractions: {
+      "1/4": "¼",
+      "1/3": "⅓",
+      "1/2": "½",
+      "2/3": "⅔",
+      "3/4": "¾",
+    },
     fullRecipe: {
       imageUrl: "",
       title: "",
@@ -46,6 +53,11 @@ export const inputSlice = createSlice({
     },
     setIngredient: (state, action) => {
       state.ingredient = action.payload.value;
+      for (const [key, value] of Object.entries(state.fractions)) {
+        if (state.ingredient.includes(key)) {
+          state.ingredient = state.ingredient.replace(key, value);
+        }
+      }
     },
     setHovered: (state) => {
       state.item.isHovered = !state.item.isHovered;
@@ -62,6 +74,7 @@ export const inputSlice = createSlice({
       state.fullRecipe = { ...state.fullRecipe, [name]: value };
     },
     clearForm: (state) => {
+      state.ingredient = "";
       state.fullRecipe = {
         imageUrl: "",
         title: "",

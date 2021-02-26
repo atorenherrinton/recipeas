@@ -1,10 +1,10 @@
 /** @format */
 
 import React from "react";
-import { ListGroup } from "react-bootstrap";
-import { Close } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
 import { deleteIngredient } from "../../slices/input.slice";
+import { ListGroup } from "react-bootstrap";
+import { Close } from "@material-ui/icons";
 
 const ListItem = (props) => {
   const dispatch = useDispatch();

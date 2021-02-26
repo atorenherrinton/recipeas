@@ -1,18 +1,7 @@
 /** @format */
 
-import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  InputGroup,
-  Form,
-  FormControl,
-  Button,
-  Alert,
-} from "react-bootstrap";
-import List from "../list/list.component";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import firebase from "../../firebase/firebase";
 import {
   addIngredient,
@@ -32,7 +21,18 @@ import {
   invalidateForm,
   selectIsValidated,
 } from "../../slices/form.slice";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  InputGroup,
+  Form,
+  FormControl,
+  Button,
+  Alert,
+} from "react-bootstrap";
+import List from "../list/list.component";
 
 import {
   ButtonGroupContainer,
@@ -47,6 +47,7 @@ const RecipeForm = () => {
   const dispatch = useDispatch();
   const isFormValidated = useSelector(selectIsValidated);
   const ingredient = useSelector(selectIngredient);
+  console.log(ingredient);
   const ingredientExists = useSelector(selectIngredientExists);
   if (ingredientExists) {
     setTimeout(() => {
@@ -72,7 +73,6 @@ const RecipeForm = () => {
     }
   };
 
-
   return (
     <Container>
       <Row className="justify-content-center">
@@ -95,7 +95,6 @@ const RecipeForm = () => {
                     placeholder="Add the name of your recipe here"
                     name="title"
                     required
-                    controlid="validationCustom01"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please enter a recipe name.
@@ -117,7 +116,6 @@ const RecipeForm = () => {
                     name="imageUrl"
                     id="basic-url"
                     aria-describedby="basic-addon3"
-                    controlid="validationCustom02"
                     required
                   />
                   <Form.Control.Feedback type="invalid">
@@ -137,7 +135,6 @@ const RecipeForm = () => {
                     as="textarea"
                     rows={2}
                     required
-                    controlid="validationCustom03"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please enter a recipe description.
@@ -160,8 +157,8 @@ const RecipeForm = () => {
                     name="ingredients"
                     aria-label="Ingredients list"
                     aria-describedby="basic-addon2"
+                    value={ingredient}
                     // required
-                    controlid="validationCustom04"
                   />
 
                   <InputGroup.Append>
@@ -200,7 +197,6 @@ const RecipeForm = () => {
                     as="textarea"
                     rows={8}
                     required
-                    controlid="validationCustom05"
                   />
                   <Form.Control.Feedback type="invalid">
                     Please add the directions
