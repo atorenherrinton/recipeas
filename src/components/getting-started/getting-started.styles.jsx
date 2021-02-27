@@ -2,16 +2,11 @@
 
 import styled from "styled-components";
 
-export const NewRecipeContainer = styled.div`
-  margin: 150px auto auto auto;
-  display: block;
-  text-align: center;
-`;
-
-export const IntroContainer = styled.div`
-  margin-bottom: 12px;
+export const ButtonGroupContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export const ButtonContainer = styled.div`
-  margin-top: 25px;
+  margin: 0 0.25rem 0 0.25rem;
 `;

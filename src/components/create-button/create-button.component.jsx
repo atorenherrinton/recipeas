@@ -2,7 +2,11 @@
 
 import React from "react";
 import { useDispatch } from "react-redux";
-import { activateForm, activateUrl } from "../../slices/form.slice";
+import {
+  activateForm,
+  activateUrl,
+  deactivateUrl,
+} from "../../slices/form.slice";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
 const CreateButton = () => {
@@ -20,14 +24,15 @@ const CreateButton = () => {
           dispatch(activateUrl());
         }}
       >
-        From allrecipes.com
+        allrecipes.com
       </Dropdown.Item>
       <Dropdown.Item
         onClick={() => {
           dispatch(activateForm());
+          dispatch(deactivateUrl());
         }}
       >
-        From scratch
+        from scratch
       </Dropdown.Item>
     </DropdownButton>
   );

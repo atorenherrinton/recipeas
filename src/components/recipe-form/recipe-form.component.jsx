@@ -210,12 +210,12 @@ const RecipeForm = () => {
                         dispatch(deactivateForm());
                         dispatch(clearForm());
                       }}
-                      variant="secondary"
+                      variant="outline-secondary"
                     >
                       Cancel
                     </Button>
                   </ButtonContainer>
-                  <Button variant="primary" type="submit">
+                  <Button variant="outline-primary" type="submit">
                     Save
                   </Button>
                 </ButtonGroupContainer>

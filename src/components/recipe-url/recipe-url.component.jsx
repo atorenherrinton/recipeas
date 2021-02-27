@@ -20,6 +20,7 @@ const RecipeForm = () => {
         setRecipe(data.recipe);
       });
   }, []);
+  
   const handleClick = () => {
     dispatch(deactivateForm());
     dispatch(deactivateUrl());
@@ -28,14 +29,14 @@ const RecipeForm = () => {
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col md={8}>
-          <Card>
-            <Card.Header as="h5">Add from allrecipes</Card.Header>
+        <Col md={6}>
+          <Card style={{ marginTop: "6rem" }} >
+            <Card.Header as="h5">New recipe</Card.Header>
             <Card.Body>
               <Form onSubmit={handleClick}>
                 <Form.Group controlId="formBasicEmail">
-                  <Form.Label>URL</Form.Label>
-                  <Form.Control placeholder="Enter URL" />
+                  <Form.Label>Recipe URL</Form.Label>
+                  <Form.Control placeholder="Enter the URL of the allrecipes.com recipe" />
                 </Form.Group>
 
                 <ButtonGroupContainer>
@@ -45,12 +46,12 @@ const RecipeForm = () => {
                         dispatch(deactivateForm());
                         dispatch(deactivateUrl());
                       }}
-                      variant="secondary"
+                      variant="outline-secondary"
                     >
                       Cancel
                     </Button>
                   </ButtonContainer>
-                  <Button variant="primary" type="submit">
+                  <Button variant="outline-primary" type="submit">
                     Save
                   </Button>
                 </ButtonGroupContainer>

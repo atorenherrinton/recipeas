@@ -2,27 +2,55 @@
 
 import React from "react";
 import { useDispatch } from "react-redux";
-import { activateForm } from "../../slices/form.slice";
-import CreateButton from "../create-button/create-button.component";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import {
-  IntroContainer,
-  NewRecipeContainer,
+  activateForm,
+  activateUrl,
+  deactivateUrl,
+} from "../../slices/form.slice";
+import {
+  ButtonGroupContainer,
   ButtonContainer,
 } from "./getting-started.styles";
 
 const GettingStarted = () => {
   const dispatch = useDispatch();
   return (
-    <NewRecipeContainer>
-      <IntroContainer>
-        <h6>Getting Started</h6>
-      </IntroContainer>
-      <h5>Add your first recipe</h5>
-      <p>Include a photo, required tools, ingredients, and directions.</p>
-      <ButtonContainer>
-        <CreateButton />
-      </ButtonContainer>
-    </NewRecipeContainer>
+    <Row className="justify-content-center">
+      <Col md={6}>
+        <Card style={{ marginTop: "6rem" }} className="text-center">
+          <Card.Header>Getting Started</Card.Header>
+          <Card.Body>
+            <Card.Title style={{ marginBottom: "0.5rem" }}>
+              Create New Recipe
+            </Card.Title>
+            <Card.Text style={{ marginBottom: "1.5rem" }}>
+              Get started by creating a recipe
+            </Card.Text>
+            <Button
+              variant="outline-primary"
+              onClick={() => {
+                dispatch(activateForm());
+                dispatch(activateUrl());
+              }}
+              style={{ marginRight: "0.25rem", marginBottom: "1rem" }}
+            >
+              allrecipes.com
+            </Button>
+            <Button
+              variant="outline-dark"
+              onClick={() => {
+                dispatch(activateForm());
+                dispatch(deactivateUrl());
+              }}
+              style={{ marginLeft: "0.25rem", marginBottom: "1rem" }}
+            >
+              from scratch
+            </Button>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
