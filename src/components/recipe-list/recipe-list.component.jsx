@@ -4,7 +4,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectRecipe, selectRecipes } from "../../slices/recipe.slice";
 import { CardColumns, Col, Row } from "react-bootstrap";
-import NewRecipe from "../new-recipe/new-recipe.component";
+import GettingStarted from "../getting-started/getting-started.component";
 import SavedRecipeCard from "../saved-recipe-card/saved-recipe-card.component";
 import FullRecipe from "../full-recipe/full-recipe.component";
 
@@ -15,7 +15,7 @@ const RecipeList = () => {
     <Row className="justify-content-center">
       <Col md={8}>
         {!recipes.length > 0 ? (
-          <NewRecipe />
+          <GettingStarted />
         ) : recipe.isOpen ? (
           <FullRecipe
             id={recipe.fullRecipe.id}

@@ -1,12 +1,10 @@
 /** @format */
 
 import React from "react";
-import { useDispatch } from "react-redux";
-import { activateForm } from "../../slices/form.slice";
 import { Button, Form, FormControl, Navbar } from "react-bootstrap";
+import CreateButton from "../create-button/create-button.component";
 
 const Header = () => {
-  const dispatch = useDispatch();
   return (
     <Navbar
       fixed="top"
@@ -20,13 +18,7 @@ const Header = () => {
         <Button variant="outline-success">Search</Button>
       </Form>
 
-      <Button
-        onClick={() => dispatch(activateForm())}
-        variant="outline-primary"
-        type="submit"
-      >
-        Create Recipe
-      </Button>
+      <CreateButton />
 
       {/* <DropdownButton
         menuAlign="right"
