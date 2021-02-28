@@ -1,8 +1,9 @@
 import time
-from flask import Flask
-
+from flask import Flask, request
 app = Flask(__name__)
 
-@app.route('/recipe')
-def get_allrecipe():
-    return {'recipe': 'Here is your recipe'}
+
+@app.route('/recipe', methods=["POST"])
+def get_result():
+    result = request.json
+    return {'result': f'result: {result}'}

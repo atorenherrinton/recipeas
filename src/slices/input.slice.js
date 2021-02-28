@@ -14,6 +14,7 @@ export const inputSlice = createSlice({
       "2/3": "⅔",
       "3/4": "¾",
     },
+    allRecipesUrl: "",
     fullRecipe: {
       imageUrl: "",
       title: "",
@@ -69,6 +70,9 @@ export const inputSlice = createSlice({
         [name]: "https://" + value.replace("https://", ""),
       };
     },
+    setAllRecipesUrl: (state, action) => {
+      state.allRecipesUrl = action.payload.value;
+    },
     setFullRecipe: (state, action) => {
       const { value, name } = action.payload;
       state.fullRecipe = { ...state.fullRecipe, [name]: value };
@@ -89,6 +93,7 @@ export const inputSlice = createSlice({
 export const {
   addIngredient,
   deleteIngredient,
+  setAllRecipesUrl,
   setIngredient,
   setUrl,
   resetIngredient,
@@ -114,5 +119,6 @@ export const selectIngredient = (state) => state.input.ingredient;
 export const selectIngredients = (state) => state.input.fullRecipe.ingredients;
 export const selectFullRecipe = (state) => state.input.fullRecipe;
 export const selectIngredientExists = (state) => state.input.ingredientExists;
+export const selectAllRecipesUrl = (state) => state.input.allRecipesUrl;
 
 export default inputSlice.reducer;

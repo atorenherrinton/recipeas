@@ -47,7 +47,6 @@ const RecipeForm = () => {
   const dispatch = useDispatch();
   const isFormValidated = useSelector(selectIsValidated);
   const ingredient = useSelector(selectIngredient);
-  console.log(ingredient);
   const ingredientExists = useSelector(selectIngredientExists);
   if (ingredientExists) {
     setTimeout(() => {

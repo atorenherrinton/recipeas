@@ -1,42 +1,37 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  setAllRecipesUrl,
+  selectAllRecipesUrl,
+} from "../../slices/input.slice";
 import firebase from "../../firebase/firebase";
 
 import { deactivateUrl, deactivateForm } from "../../slices/form.slice";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { ButtonContainer, ButtonGroupContainer } from "./recipe-url.styles";
 
-const RecipeForm = () => {
+const RecipeUrl = () => {
   const dispatch = useDispatch();
-  const [recipe, setRecipe] = useState("");
-  console.log(recipe);
-
-  useEffect(() => {
-    fetch("/recipe")
-      .then((res) => res.json())
-      .then((data) => {
-        setRecipe(data.recipe);
-      });
-  }, []);
-  
-  const handleClick = () => {
-    dispatch(deactivateForm());
-    dispatch(deactivateUrl());
-  };
+  const url = useSelector(selectAllRecipesUrl);
 
   return (
     <Container>
       <Row className="justify-content-center">
         <Col md={6}>
-          <Card style={{ marginTop: "6rem" }} >
+          <Card style={{ marginTop: "6rem" }}>
             <Card.Header as="h5">New recipe</Card.Header>
             <Card.Body>
-              <Form onSubmit={handleClick}>
+              <Form>
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Recipe URL</Form.Label>
-                  <Form.Control placeholder="Enter the URL of the allrecipes.com recipe" />
+                  <Form.Control
+                    onChange={(event) => {
+                      dispatch(setAllRecipesUrl(event.target));
+                    }}
+                    placeholder="Enter the URL of the allrecipes.com recipe"
+                  />
                 </Form.Group>
 
                 <ButtonGroupContainer>
@@ -51,7 +46,25 @@ const RecipeForm = () => {
                       Cancel
                     </Button>
                   </ButtonContainer>
-                  <Button variant="outline-primary" type="submit">
+                  <Button
+                    onClick={() => {
+                      fetch("/recipe", {
+                        method: "POST",
+                        cache: "no-cache",
+                        headers: {
+                          content_type: "application/json",
+                        },
+                        body: JSON.stringify(url),
+                      })
+                        .then((res) => res.json())
+                        .then((data) => {
+                          console.log(data.result);
+                        });
+                        dispatch(deactivateForm());
+                        dispatch(deactivateUrl());
+                    }}
+                    variant="outline-primary"
+                  >
                     Save
                   </Button>
                 </ButtonGroupContainer>
@@ -64,4 +77,4 @@ const RecipeForm = () => {
   );
 };
 
-export default RecipeForm;
+export default RecipeUrl;

@@ -14,7 +14,6 @@ const ListItem = (props) => {
       <Close
         onClick={() => {
           dispatch(deleteIngredient(props.ingredient));
-          console.log(props.ingredient);
         }}
         style={{ float: "right", color: "#6c757d", cursor: "pointer" }}
         fontSize="small"
