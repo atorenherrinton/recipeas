@@ -13,7 +13,7 @@ const RecipeList = () => {
   const recipe = useSelector(selectRecipe);
   return (
     <Row className="justify-content-center">
-      <Col xs={11} sm={12} md={9}>
+      <Col xs={11} lg={10}>
         {!recipes.length > 0 ? (
           <GettingStarted />
         ) : recipe.isOpen ? (

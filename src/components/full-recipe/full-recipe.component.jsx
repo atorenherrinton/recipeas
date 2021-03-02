@@ -4,15 +4,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { closeRecipe } from "../../slices/recipe.slice";
 import firebase from "../../firebase/firebase";
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Container,
-  Dropdown,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import DropdownButton from "../dropdown/dropdown.component"
 
 const FullRecipe = (props) => {
   const dispatch = useDispatch();
@@ -22,6 +15,7 @@ const FullRecipe = (props) => {
       <Row className="justify-content-center">
         <Col xl={7}>
           <Card>
+            <DropdownButton id={props.id} />
             <Card.Img
               style={{ height: "25rem", objectFit: "cover" }}
               variant="top"
@@ -45,33 +39,15 @@ const FullRecipe = (props) => {
                 <p key={idx}>{step}</p>
               ))}
 
-              <Dropdown as={ButtonGroup} style={{ width: "100%" }}>
-                <Button
-                  style={{ width: "95%" }}
-                  variant="outline-primary"
-                  onClick={() => {
-                    dispatch(closeRecipe());
-                  }}
-                >
-                  Close Recipe
-                </Button>
-
-                <Dropdown.Toggle
-                  split
-                  variant="outline-primary"
-                  id="dropdown-split-basic"
-                />
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    onClick={() => {
-                      itemRef.remove();
-                      dispatch(closeRecipe());
-                    }}
-                  >
-                    Delete Recipe
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              <Button
+                style={{ width: "100%" }}
+                variant="outline-primary"
+                onClick={() => {
+                  dispatch(closeRecipe());
+                }}
+              >
+                Close Recipe
+              </Button>
             </Card.Body>
           </Card>
         </Col>
