@@ -20,9 +20,13 @@ const FullRecipe = (props) => {
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col sm={8}>
+        <Col xl={7}>
           <Card>
-            <Card.Img variant="top" src={props.imageUrl} />
+            <Card.Img
+              style={{ height: "25rem", objectFit: "cover" }}
+              variant="top"
+              src={props.imageUrl}
+            />
             <Card.Body>
               <h4>{props.title}</h4>
               <p>{props.description}</p>
@@ -61,6 +65,7 @@ const FullRecipe = (props) => {
                   <Dropdown.Item
                     onClick={() => {
                       itemRef.remove();
+                      dispatch(closeRecipe());
                     }}
                   >
                     Delete Recipe
