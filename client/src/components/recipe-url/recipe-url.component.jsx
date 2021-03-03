@@ -17,7 +17,7 @@ const RecipeUrl = () => {
   };
 
   const handleSubmit = () => {
-    fetch("/api/", {
+    fetch("http://recipeaz.herokuapp.com/api", {
       method: "POST",
       cache: "no-cache",
       headers: {
