@@ -42,7 +42,7 @@ const RecipeUrl = () => {
           <Card style={{ marginTop: "6rem" }}>
             <Card.Header as="h5">New recipe</Card.Header>
             <Card.Body>
-              <Form onSubmit={handleSubmit}>
+              <Form>
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Recipe URL</Form.Label>
                   <Form.Control
@@ -63,7 +63,11 @@ const RecipeUrl = () => {
                       Cancel
                     </Button>
                   </ButtonContainer>
-                  <Button type="submit" variant="outline-primary">
+                  <Button
+                    onSubmit={() => handleSubmit()}
+                    type="submit"
+                    variant="outline-primary"
+                  >
                     Save
                   </Button>
                 </ButtonGroupContainer>
