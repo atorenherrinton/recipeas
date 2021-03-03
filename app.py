@@ -1,13 +1,15 @@
 from bs4 import BeautifulSoup, NavigableString, Comment
 from flask import Flask, request, render_template, send_from_directory, request, jsonify, make_response
+from flask_cors import CORS, cross_origin
 import requests
 app = Flask(__name__, static_folder='client/build', static_url_path='')
+cors = CORS(app)
 
 
-@app.route('/api', methods=["POST"])
+@app.route('/api')
+@cross_origin()
 def get_result():
-    result = request.json
-    return {'result': parse_site(result)}
+    return 'welcome'
 
 
 def parse_site(site):
