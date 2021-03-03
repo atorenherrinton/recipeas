@@ -23,7 +23,7 @@ const RecipeUrl = () => {
       headers: {
         content_type: "application/json",
       },
-      body: JSON.stringify(url),
+      body: JSON.stringify("https://www.allrecipes.com/recipe/220520/classic-hash-browns/"),
     })
       .then((res) => res.json())
       .then((data) => {
