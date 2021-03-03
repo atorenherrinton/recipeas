@@ -13,7 +13,7 @@ const GettingStarted = () => {
   const dispatch = useDispatch();
   return (
     <Row className="justify-content-center">
-      <Col md={6}lg={4}>
+      <Col md={6} xl={4}>
         <Card style={{ marginTop: "6rem" }} className="text-center">
           <Card.Header>Getting Started</Card.Header>
           <Card.Body>
