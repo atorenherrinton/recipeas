@@ -17,14 +17,9 @@ const RecipeUrl = () => {
   };
 
   const handleSubmit = () => {
-    fetch("https://recipeaz.herokuapp.com/api", {
-      method: "POST",
-      cache: "no-cache",
-      headers: {
-        content_type: "application/json",
-      },
-      body: JSON.stringify("https://www.allrecipes.com/recipe/220520/classic-hash-browns/"),
-    })
+    const url_req_string =
+      "/api/" + "?url=" + url;
+    fetch(url_req_string)
       .then((res) => res.json())
       .then((data) => {
         itemsRef.push(data.result);
