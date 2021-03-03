@@ -1,13 +1,15 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { closeRecipe } from "../../slices/recipe.slice";
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import DropdownButton from "../dropdown/dropdown.component";
+import Ingredient from "../ingredient/ingredient.component";
 
 const FullRecipe = (props) => {
   const dispatch = useDispatch();
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -29,9 +31,7 @@ const FullRecipe = (props) => {
                   </thead>
                   <tbody>
                     {props.ingredients.map((ingredient, idx) => (
-                      <tr>
-                        <td key={idx}>{ingredient}</td>
-                      </tr>
+                      <Ingredient key={idx} ingredient={ingredient} />
                     ))}
                   </tbody>
                 </Table>
