@@ -6,13 +6,11 @@ app = Flask(__name__, static_folder='client/build', static_url_path='')
 cors = CORS(app)
 
 
-@app.route("/api", methods=["POST", "GET"])
+@app.route("/api", methods=["POST"])
 @cross_origin()
 def get_result():
-    if request.method == 'GET':
-        return "Hello World! GET request"
-    if request.method == 'POST':
         result = request.json
+        print(result)
         return {'result': parse_site(result)}
 
 
