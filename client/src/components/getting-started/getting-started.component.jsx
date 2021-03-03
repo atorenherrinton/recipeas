@@ -8,16 +8,12 @@ import {
   activateUrl,
   deactivateUrl,
 } from "../../slices/form.slice";
-import {
-  ButtonGroupContainer,
-  ButtonContainer,
-} from "./getting-started.styles";
 
 const GettingStarted = () => {
   const dispatch = useDispatch();
   return (
     <Row className="justify-content-center">
-      <Col md={6}>
+      <Col md={4}>
         <Card style={{ marginTop: "6rem" }} className="text-center">
           <Card.Header>Getting Started</Card.Header>
           <Card.Body>
