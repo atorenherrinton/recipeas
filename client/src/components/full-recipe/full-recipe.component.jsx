@@ -3,8 +3,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { closeRecipe } from "../../slices/recipe.slice";
-import firebase from "../../firebase/firebase";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import DropdownButton from "../dropdown/dropdown.component";
 
 const FullRecipe = (props) => {
@@ -24,19 +23,31 @@ const FullRecipe = (props) => {
               <h4>{props.title}</h4>
               <p>{props.description}</p>
               {props.ingredients ? (
-                <div>
-                  <h5>Ingredients</h5>
-                  <ul>
+                <Table hover size="sm">
+                  <thead>
+                    <th>Ingredients</th>
+                  </thead>
+                  <tbody>
                     {props.ingredients.map((ingredient, idx) => (
-                      <li key={idx}>{ingredient}</li>
+                      <tr>
+                        <td key={idx}>{ingredient}</td>
+                      </tr>
                     ))}
-                  </ul>
-                </div>
+                  </tbody>
+                </Table>
               ) : null}
-              <h5>Directions</h5>
-              {props.directions.split("\n").map((step, idx) => (
-                <p key={idx}>{step}</p>
-              ))}
+              <Table hover striped size="sm">
+                <thead>
+                  <th>Directions</th>
+                </thead>
+                <tbody>
+                  {props.directions.split("\n").map((step, idx) => (
+                    <tr>
+                      <td key={idx}>{step}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
 
               <Button
                 style={{ width: "100%" }}

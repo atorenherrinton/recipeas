@@ -17,7 +17,7 @@ const DropdownButton = (props) => {
           style={{
             padding: ".25rem .65rem",
           }}
-          variant="primary"
+          variant="dark"
           size="sm"
         ></Dropdown.Toggle>
         <Dropdown.Menu>
