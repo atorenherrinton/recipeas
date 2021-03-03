@@ -17,7 +17,7 @@ const RecipeUrl = () => {
   };
 
   const handleSubmit = () => {
-    fetch("https://recipeaz.herokuapp.com/api/", {
+    fetch("/api/", {
       method: "POST",
       cache: "no-cache",
       headers: {
@@ -42,7 +42,7 @@ const RecipeUrl = () => {
           <Card style={{ marginTop: "6rem" }}>
             <Card.Header as="h5">New recipe</Card.Header>
             <Card.Body>
-              <Form>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Recipe URL</Form.Label>
                   <Form.Control
@@ -63,11 +63,7 @@ const RecipeUrl = () => {
                       Cancel
                     </Button>
                   </ButtonContainer>
-                  <Button
-                    onSubmit={() => handleSubmit()}
-                    type="submit"
-                    variant="outline-primary"
-                  >
+                  <Button type="submit" variant="outline-primary">
                     Save
                   </Button>
                 </ButtonGroupContainer>
