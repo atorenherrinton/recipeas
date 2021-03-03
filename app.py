@@ -9,8 +9,11 @@ cors = CORS(app)
 @app.route("/api", methods=["POST", "GET"])
 @cross_origin()
 def get_result():
-    result = request.json
-    return {'result': parse_site(result)}
+    if request.method == 'GET':
+        return "Hello World! GET request"
+    if request.method == 'POST':
+        result = request.json
+        return {'result': parse_site(result)}
 
 
 def parse_site(site):
