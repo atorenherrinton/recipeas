@@ -36,7 +36,7 @@ const FullRecipe = (props) => {
                   </tbody>
                 </Table>
               ) : null}
-              <Table hover striped size="sm">
+              <Table striped size="sm">
                 <thead>
                   <th>Directions</th>
                 </thead>
