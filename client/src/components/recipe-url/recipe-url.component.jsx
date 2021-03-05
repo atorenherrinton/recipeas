@@ -1,17 +1,21 @@
 /** @format */
 
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import firebase from "../../firebase/firebase";
-
+import { selectUserId } from "../../slices/authenticate.slice";
 import { deactivateUrl, deactivateForm } from "../../slices/form.slice";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { ButtonContainer, ButtonGroupContainer } from "./recipe-url.styles";
 
 const RecipeUrl = () => {
   const [url, setUrl] = useState("");
-  const itemsRef = firebase.database().ref("items");
+  const userId = useSelector(selectUserId);
+  const itemsRef = firebase
+    .database()
+    .ref("users")
+    .child(userId)
+    .child("items");
   const handleChange = (event) => {
     setUrl(event.target.value);
   };

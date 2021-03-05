@@ -3,6 +3,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "../../firebase/firebase";
+import { selectUserId } from "../../slices/authenticate.slice";
 import {
   addIngredient,
   setIngredient,
@@ -45,6 +46,7 @@ import { Add } from "@material-ui/icons";
 
 const RecipeForm = () => {
   const dispatch = useDispatch();
+  const userId = useSelector(selectUserId);
   const isFormValidated = useSelector(selectIsValidated);
   const ingredient = useSelector(selectIngredient);
   const ingredientExists = useSelector(selectIngredientExists);
@@ -56,7 +58,11 @@ const RecipeForm = () => {
   }
 
   const fullRecipe = useSelector(selectFullRecipe);
-  const itemsRef = firebase.database().ref("items");
+  const itemsRef = firebase
+    .database()
+    .ref("users")
+    .child(userId)
+    .child("items");
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;

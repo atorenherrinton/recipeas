@@ -1,3 +1,4 @@
+
 /** @format */
 
 import React, { useState } from "react";
@@ -17,7 +18,7 @@ const FullRecipe = (props) => {
           <Card>
             <DropdownButton id={props.id} />
             <Card.Img
-              style={{ height: "25rem", objectFit: "cover" }}
+              style={{ height: "25rem", objectFit: "cover",}}
               variant="top"
               src={props.imageUrl}
             />

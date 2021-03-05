@@ -2,14 +2,21 @@
 
 import React from "react";
 import { closeRecipe } from "../../slices/recipe.slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserId } from "../../slices/authenticate.slice";
 import firebase from "../../firebase/firebase";
 import { Dropdown, ButtonGroup } from "react-bootstrap";
 import { ButtonContainer } from "./dropdown.styles";
 
 const DropdownButton = (props) => {
+  const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
-  const itemRef = firebase.database().ref(`/items/${props.id}`);
+  const itemRef = firebase
+    .database()
+    .ref("users")
+    .child(userId)
+    .child("items")
+    .child(props.id);
   return (
     <ButtonContainer>
       <Dropdown drop="down" as={ButtonGroup} style={{ width: "100%" }}>

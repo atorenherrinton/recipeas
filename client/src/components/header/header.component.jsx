@@ -1,10 +1,15 @@
 /** @format */
 
 import React from "react";
-import { Button, Form, FormControl, Navbar } from "react-bootstrap";
+
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../../slices/authenticate.slice";
+import { Navbar } from "react-bootstrap";
 import CreateButton from "../create-button/create-button.component";
+import SignoutButton from "../signout-button/signout-button.component";
 
 const Header = () => {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   return (
     <Navbar
       fixed="top"
@@ -13,7 +18,8 @@ const Header = () => {
       expand="lg"
     >
       <Navbar.Brand href="#home">Recipeas</Navbar.Brand>
-      <CreateButton />
+      {isAuthenticated ? <CreateButton /> : null}
+      {isAuthenticated ? <SignoutButton /> : null}
     </Navbar>
   );
 };
