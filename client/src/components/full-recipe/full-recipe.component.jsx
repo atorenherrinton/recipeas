@@ -1,4 +1,3 @@
-
 /** @format */
 
 import React, { useState } from "react";
@@ -12,58 +11,52 @@ const FullRecipe = (props) => {
   const dispatch = useDispatch();
 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col xl={7}>
-          <Card>
-            <DropdownButton id={props.id} />
-            <Card.Img
-              style={{ height: "25rem", objectFit: "cover",}}
-              variant="top"
-              src={props.imageUrl}
-            />
-            <Card.Body>
-              <h4>{props.title}</h4>
-              <p>{props.description}</p>
-              {props.ingredients ? (
-                <Table hover size="sm">
-                  <thead>
-                    <th>Ingredients</th>
-                  </thead>
-                  <tbody>
-                    {props.ingredients.map((ingredient, idx) => (
-                      <Ingredient key={idx} ingredient={ingredient} />
-                    ))}
-                  </tbody>
-                </Table>
-              ) : null}
-              <Table striped size="sm">
-                <thead>
-                  <th>Directions</th>
-                </thead>
-                <tbody>
-                  {props.directions.split("\n").map((step, idx) => (
-                    <tr>
-                      <td key={idx}>{step}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+    <Card>
+      <DropdownButton id={props.id} />
+      <Card.Img
+        style={{ height: "25rem", objectFit: "cover" }}
+        variant="top"
+        src={props.imageUrl}
+      />
+      <Card.Body>
+        <h4>{props.title}</h4>
+        <p>{props.description}</p>
+        {props.ingredients ? (
+          <Table hover size="sm">
+            <thead>
+              <th>Ingredients</th>
+            </thead>
+            <tbody>
+              {props.ingredients.map((ingredient, idx) => (
+                <Ingredient key={idx} ingredient={ingredient} />
+              ))}
+            </tbody>
+          </Table>
+        ) : null}
+        <Table striped size="sm">
+          <thead>
+            <th>Directions</th>
+          </thead>
+          <tbody>
+            {props.directions.split("\n").map((step, idx) => (
+              <tr>
+                <td key={idx}>{step}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
 
-              <Button
-                style={{ width: "100%" }}
-                variant="outline-primary"
-                onClick={() => {
-                  dispatch(closeRecipe());
-                }}
-              >
-                Close Recipe
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+        <Button
+          style={{ width: "100%" }}
+          variant="outline-primary"
+          onClick={() => {
+            dispatch(closeRecipe());
+          }}
+        >
+          Close Recipe
+        </Button>
+      </Card.Body>
+    </Card>
   );
 };
 

@@ -81,9 +81,11 @@ const RecipeForm = () => {
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col md={8}>
+        <Col md={7}>
           <Card>
-            <Card.Header as="h5">New Recipe</Card.Header>
+            <Card.Header style={{ textAlign: "center" }} as="h5">
+              New Recipe
+            </Card.Header>
             <Card.Body>
               <Form
                 noValidate

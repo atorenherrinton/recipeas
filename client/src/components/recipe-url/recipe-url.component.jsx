@@ -38,8 +38,10 @@ const RecipeUrl = () => {
     <Container>
       <Row className="justify-content-center">
         <Col md={6}>
-          <Card style={{ marginTop: "6rem" }}>
-            <Card.Header as="h5">New recipe</Card.Header>
+          <Card style={{ marginTop: "4rem" }}>
+            <Card.Header style={{ textAlign: "center" }} as="h5">
+              New recipe
+            </Card.Header>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail">
