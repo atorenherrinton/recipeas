@@ -11,24 +11,56 @@ import {
   selectCredentials,
   resetCredentials,
   setCredentials,
+  setIsEmailSent,
+  selectIsEmailSent,
+  resetErrorMessage,
+  selectErrorMessage,
+  setErrorMessage,
+  setResetPassword,
   setSignIn,
 } from "../../slices/authenticate.slice";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import {
+  Alert,
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+} from "react-bootstrap";
 
 const SignUp = (props) => {
-  const { signInWithEmailAndPassword, signInWithGoogle, user } = props;
+  const {
+    error,
+    setError,
+    signInWithEmailAndPassword,
+    signInWithGoogle,
+    user,
+  } = props;
   const credentials = useSelector(selectCredentials);
+  const dispatch = useDispatch();
+  const errorMessage = useSelector(selectErrorMessage);
+  const isEmailSent = useSelector(selectIsEmailSent);
+
+  if (isEmailSent) {
+    setTimeout(() => {
+      dispatch(setIsEmailSent(false));
+    }, 2000);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     signInWithEmailAndPassword(credentials.email, credentials.password);
-    setTimeout(() => {
-      dispatch(resetCredentials());
-    }, 1000);
+    dispatch(resetCredentials());
   };
-  const dispatch = useDispatch();
+
+  if (error) {
+    dispatch(setErrorMessage(error));
+  }
   if (user) {
     dispatch(authenticate());
   }
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -39,11 +71,17 @@ const SignUp = (props) => {
             </Card.Header>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
+                {isEmailSent ? (
+                  <Alert variant="success">
+                    An email has been sent to reset your password
+                  </Alert>
+                ) : null}
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
                     onChange={(event) => {
                       dispatch(setCredentials(event.target));
+                      setError("reset");
                     }}
                     name="email"
                     type="email"
@@ -60,6 +98,7 @@ const SignUp = (props) => {
                   <Form.Control
                     onChange={(event) => {
                       dispatch(setCredentials(event.target));
+                      setError("reset");
                     }}
                     name="password"
                     type="password"
@@ -67,8 +106,13 @@ const SignUp = (props) => {
                     placeholder="Password"
                   />
                 </Form.Group>
-                {/* <Button
-                  style={{ fontSize: "1rem" }}
+                {errorMessage && errorMessage !== "reset" ? (
+                  <Alert className="mt-3" variant="warning">
+                    {errorMessage}
+                  </Alert>
+                ) : null}
+                <Button
+                  className="mt-2"
                   onClick={() => {
                     dispatch(setResetPassword());
                   }}
@@ -76,9 +120,9 @@ const SignUp = (props) => {
                   variant="link"
                 >
                   Forgot password?
-                </Button> */}
+                </Button>
                 <Button
-                  className="mt-3"
+                  className="mt-2"
                   block
                   variant="outline-primary"
                   type="submit"
@@ -98,6 +142,8 @@ const SignUp = (props) => {
                 <Button
                   onClick={() => {
                     dispatch(setSignIn());
+                    dispatch(resetErrorMessage());
+                    dispatch(resetCredentials());
                   }}
                   className="mt-3"
                   block

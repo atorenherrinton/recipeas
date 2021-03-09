@@ -14,6 +14,8 @@ export const authenticateSlice = createSlice({
       password: "",
       conirmPassword: "",
     },
+    isEmailSent: false,
+    errorMessage: "",
   },
   reducers: {
     authenticate: (state) => {
@@ -23,11 +25,24 @@ export const authenticateSlice = createSlice({
       state.isAuthenticated = false;
     },
     resetCredentials: (state) => {
-      state.credentials = { email: "", password: "", conirmPassword: "" };
+      state.credentials = {
+        ...state.credentials,
+        password: "",
+        conirmPassword: "",
+      };
+    },
+    resetErrorMessage: (state) => {
+      state.errorMessage = "";
     },
     setCredentials: (state, action) => {
       const { value, name } = action.payload;
       state.credentials = { ...state.credentials, [name]: value };
+    },
+    setIsEmailSent: (state, action) => {
+      state.isEmailSent = action.payload;
+    },
+    setErrorMessage: (state, action) => {
+      state.errorMessage = action.payload;
     },
     setSignIn: (state) => {
       state.isSignIn = !state.isSignIn;
@@ -46,6 +61,9 @@ export const {
   deauthenticate,
   resetCredentials,
   setCredentials,
+  resetErrorMessage,
+  setErrorMessage,
+  setIsEmailSent,
   setResetPassword,
   setSignIn,
   setUserId,
@@ -57,6 +75,8 @@ export const {
 export const selectIsAuthenticated = (state) =>
   state.authenticate.isAuthenticated;
 export const selectCredentials = (state) => state.authenticate.credentials;
+export const selectIsEmailSent = (state) => state.authenticate.isEmailSent;
+export const selectErrorMessage = (state) => state.authenticate.errorMessage;
 export const selectIsSignIn = (state) => state.authenticate.isSignIn;
 export const selectResetPassword = (state) => state.authenticate.resetPassword;
 export const selectUserId = (state) => state.authenticate.userId;

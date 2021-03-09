@@ -18,7 +18,7 @@ const SignoutButton = (props) => {
         signOut();
         dispatch(deauthenticate());
       }}
-      variant="outline-info"
+      variant="outline-secondary"
     >
       Sign Out
     </Button>

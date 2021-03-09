@@ -9,8 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   authenticate,
   selectCredentials,
+  selectErrorMessage,
   resetCredentials,
+  resetErrorMessage,
   setCredentials,
+  setErrorMessage,
   setSignIn,
 } from "../../slices/authenticate.slice";
 import {
@@ -24,26 +27,32 @@ import {
 } from "react-bootstrap";
 
 const SignUp = (props) => {
-  const { createUserWithEmailAndPassword, signInWithGoogle, user } = props;
+  const {
+    createUserWithEmailAndPassword,
+    setError,
+    error,
+    signInWithGoogle,
+    user,
+  } = props;
   const credentials = useSelector(selectCredentials);
   const [doesNotMatch, setDoesNotMatch] = useState(false);
   if (doesNotMatch) {
-    setTimeout(() => {
-      setDoesNotMatch(false);
-    }, 1750);
+    setTimeout(() => {}, 1750);
   }
+  const errorMessage = useSelector(selectErrorMessage);
   const handleSubmit = (event) => {
     event.preventDefault();
     if (credentials.password !== credentials.confirmPassword) {
       setDoesNotMatch(true);
     } else {
       createUserWithEmailAndPassword(credentials.email, credentials.password);
-      setTimeout(() => {
-        dispatch(resetCredentials());
-      }, 1000);
+      dispatch(resetCredentials());
     }
   };
   const dispatch = useDispatch();
+  if (error) {
+    dispatch(setErrorMessage(error));
+  }
   if (user) {
     dispatch(authenticate());
   }
@@ -62,12 +71,17 @@ const SignUp = (props) => {
                   <Form.Control
                     onChange={(event) => {
                       dispatch(setCredentials(event.target));
+                      setError("reset");
+                      setDoesNotMatch(false);
                     }}
                     name="email"
                     type="email"
                     value={credentials.email}
                     placeholder="Enter email"
                   />
+                  <Form.Text className="text-muted">
+                    We'll never share your email with anyone else.
+                  </Form.Text>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
@@ -75,6 +89,8 @@ const SignUp = (props) => {
                   <Form.Control
                     onChange={(event) => {
                       dispatch(setCredentials(event.target));
+                      setError("reset");
+                      setDoesNotMatch(false);
                     }}
                     name="password"
                     type="password"
@@ -87,6 +103,8 @@ const SignUp = (props) => {
                   <Form.Control
                     onChange={(event) => {
                       dispatch(setCredentials(event.target));
+                      setError("reset");
+                      setDoesNotMatch(false);
                     }}
                     name="confirmPassword"
                     type="password"
@@ -95,6 +113,9 @@ const SignUp = (props) => {
                 </Form.Group>
                 {doesNotMatch ? (
                   <Alert variant="warning">The passwords do not match</Alert>
+                ) : null}
+                {errorMessage && errorMessage !== "reset" ? (
+                  <Alert variant="warning">{errorMessage}</Alert>
                 ) : null}
 
                 <Button
@@ -116,6 +137,7 @@ const SignUp = (props) => {
                 <Button
                   onClick={() => {
                     dispatch(setSignIn());
+                    dispatch(resetErrorMessage());
                   }}
                   className="mt-3"
                   block

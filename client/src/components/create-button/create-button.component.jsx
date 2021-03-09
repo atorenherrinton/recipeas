@@ -13,8 +13,8 @@ const CreateButton = () => {
   const dispatch = useDispatch();
   return (
     <DropdownButton
-      menuAlign="right"
-      variant="outline-primary"
+      
+      variant="primary"
       id="dropdown-basic-button"
       title="Create Recipe"
     >

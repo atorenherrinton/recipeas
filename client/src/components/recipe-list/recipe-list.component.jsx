@@ -14,7 +14,9 @@ const RecipeList = () => {
   return (
     <Row className="justify-content-center">
       {!recipes.length > 0 ? (
-        <GettingStarted />
+        <Col xs={11} sm={10} md={10}>
+          <GettingStarted />
+        </Col>
       ) : recipe.isOpen ? (
         <Col xs={11} sm={10} md={8} lg={6} xl={5}>
           <CardGroup>

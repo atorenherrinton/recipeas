@@ -17,8 +17,8 @@ const Header = () => {
       bg="light"
       expand="lg"
     >
-      <Navbar.Brand href="#home">Recipeas</Navbar.Brand>
-      {isAuthenticated ? <CreateButton /> : null}
+      <Navbar.Brand>Recipeas</Navbar.Brand>
+      {isAuthenticated ? <CreateButton /> : <span>Make it your own</span>}
       {isAuthenticated ? <SignoutButton /> : null}
     </Navbar>
   );

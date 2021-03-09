@@ -1,43 +1,27 @@
 /** @format */
 
-import React, { useState } from "react";
-import withFirebaseAuth from "react-with-firebase-auth";
-import firebase from "firebase/app";
-import "firebase/auth";
+import React from "react";
 import firebaseApp from "../../firebase/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCredentials,
   setCredentials,
+  setIsEmailSent,
   setResetPassword,
 } from "../../slices/authenticate.slice";
-import {
-  Alert,
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 
-const ResetPassword = (props) => {
-  const { resetEmail } = props;
+const ResetPassword = () => {
+  const dispatch = useDispatch();
   const credentials = useSelector(selectCredentials);
-  const [emailSent, setEmailSent] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setTimeout(() => {
-      setEmailSent(true);
-    }, 1000);
-    setTimeout(() => {
-      setEmailSent(false);
-    }, 1000);
-
+    firebaseApp.auth().sendPasswordResetEmail(credentials.email);
+    dispatch(setIsEmailSent(true));
     dispatch(setResetPassword());
   };
-  const dispatch = useDispatch();
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -47,35 +31,29 @@ const ResetPassword = (props) => {
               Reset Password
             </Card.Header>
             <Card.Body>
-              {emailSent ? (
-                <Alert variant="success">
-                  An email has been sent to reset your password
-                </Alert>
-              ) : (
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control
-                      onChange={(event) => {
-                        dispatch(setCredentials(event.target));
-                      }}
-                      name="email"
-                      type="email"
-                      value={credentials.email}
-                      placeholder="Enter email"
-                    />
-                  </Form.Group>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    onChange={(event) => {
+                      dispatch(setCredentials(event.target));
+                    }}
+                    name="email"
+                    type="email"
+                    value={credentials.email}
+                    placeholder="Enter email"
+                  />
+                </Form.Group>
 
-                  <Button
-                    className="mt-2"
-                    block
-                    variant="outline-primary"
-                    type="submit"
-                  >
-                    Reset Password
-                  </Button>
-                </Form>
-              )}
+                <Button
+                  className="mt-2"
+                  block
+                  variant="outline-primary"
+                  type="submit"
+                >
+                  Reset Password
+                </Button>
+              </Form>
             </Card.Body>
           </Card>
         </Col>
@@ -84,13 +62,4 @@ const ResetPassword = (props) => {
   );
 };
 
-const firebaseAppAuth = firebaseApp.auth();
-
-const providers = {
-  googleProvider: new firebase.auth.GoogleAuthProvider(),
-};
-
-export default withFirebaseAuth({
-  providers,
-  firebaseAppAuth,
-})(ResetPassword);
+export default ResetPassword;

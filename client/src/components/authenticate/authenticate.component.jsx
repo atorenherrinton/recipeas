@@ -7,11 +7,12 @@ import {
   selectIsSignIn,
   selectResetPassword,
 } from "../../slices/authenticate.slice";
-import { Container, Row, Col, Image } from "react-bootstrap";
+import { Card, Container, Row, Col, Image } from "react-bootstrap";
 import SignIn from "../sign-in/sign-in.component";
 import SignUp from "../sign-up/sign-up.component";
 import ResetPassword from "../reset-password/reset-password.component";
-import image from "../../assets/signin.jpg";
+import image from "../../assets/breakfast.svg";
+import { TitleContainer } from "./authenticate.styles";
 
 const Authenticate = () => {
   const isSignIn = useSelector(selectIsSignIn);
@@ -20,14 +21,24 @@ const Authenticate = () => {
   return (
     <Container
       style={{
-        marginTop: "175px",
+        marginTop: "150px",
       }}
     >
       <Row className="justify-content-center">
-        <Col xs={11} sm={10} md={8} style={{ marginBottom: "3rem" }}>
-          <Image fluid src={image} rounded />
+        <Col
+          style={{
+            marginBottom: "2rem",
+            position: "relative",
+            textAlign: "center",
+          }}
+          xs={8}
+          sm={8}
+          md={6}
+          lg={5}
+        >
+          <Image src={image} />
         </Col>
-        <Col xs={12} sm={10} md={8} lg={4}>
+        <Col class="mt-1" xs={12} sm={10} md={8} lg={{span: 5 , offset: 1}}>
           {!isSignIn ? (
             <SignUp />
           ) : !resetPassword ? (
