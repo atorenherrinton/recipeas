@@ -9,7 +9,6 @@ client/node_modules
 /coverage
 
 # production
-client/build/
 uploads/
 
 # misc
