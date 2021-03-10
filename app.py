@@ -8,6 +8,9 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 import logging
 import requests
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import storage
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('HELLO WORLD')
@@ -17,6 +20,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__, static_folder='client/build', static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+default_app = firebase_admin.initialize_app()
 
 
 @app.route("/api/")
@@ -65,12 +69,16 @@ def fileUpload():
     logger.info("welcome to upload`")
     file = request.files['file']
     filename = random_filename(secure_filename(file.filename))
-    destination = "/".join([UPLOAD_FOLDER, filename])
     image = Image.open(file)
     image.thumbnail((700, 700))
-    image.save(destination)
+    bucket = storage.bucket()
+    blob = bucket.blob(filename)
+    blob.upload_from_string(
+        image,
+        content_type=f'image/{filename.split(".")[1]}'
+    )
     session['uploadFilePath'] = destination
-    response = f'{UPLOAD_FOLDER}/{filename}'
+    response = f'upload success!'
     return {'result': response}
 
 
