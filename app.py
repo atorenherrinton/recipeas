@@ -78,7 +78,7 @@ def fileUpload():
         content_type=f'image/{filename.split(".")[1]}'
     )
     session['uploadFilePath'] = destination
-    response = f'upload success!'
+    response = blob.public_url
     return {'result': response}
 
 
