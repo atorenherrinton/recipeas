@@ -38,7 +38,7 @@ const Authenticate = () => {
         >
           <Image src={image} />
         </Col>
-        <Col class="mt-1" xs={12} sm={10} md={8} lg={{span: 5 , offset: 1}}>
+        <Col class="mt-1" xs={12} sm={10} md={8} lg={{ span: 5, offset: 1 }}>
           {!isSignIn ? (
             <SignUp />
           ) : !resetPassword ? (

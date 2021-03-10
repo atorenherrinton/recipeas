@@ -14,7 +14,6 @@ export const inputSlice = createSlice({
       "2/3": "⅔",
       "3/4": "¾",
     },
-    allRecipesUrl: "",
     fullRecipe: {
       imageUrl: "",
       title: "",
@@ -117,6 +116,5 @@ export const selectIngredient = (state) => state.input.ingredient;
 export const selectIngredients = (state) => state.input.fullRecipe.ingredients;
 export const selectFullRecipe = (state) => state.input.fullRecipe;
 export const selectIngredientExists = (state) => state.input.ingredientExists;
-export const selectAllRecipesUrl = (state) => state.input.allRecipesUrl;
 
 export default inputSlice.reducer;

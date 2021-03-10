@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "../../firebase/firebase";
 import { selectUserId } from "../../slices/authenticate.slice";
@@ -46,8 +46,8 @@ import { Add } from "@material-ui/icons";
 
 const RecipeForm = () => {
   const dispatch = useDispatch();
+  const ref = useRef(null);
   const userId = useSelector(selectUserId);
-  const isFormValidated = useSelector(selectIsValidated);
   const ingredient = useSelector(selectIngredient);
   const ingredientExists = useSelector(selectIngredientExists);
   if (ingredientExists) {
@@ -63,6 +63,23 @@ const RecipeForm = () => {
     .ref("users")
     .child(userId)
     .child("items");
+
+  const handleUpload = (event) => {
+    event.preventDefault();
+    const data = new FormData();
+    console.log(ref.current.files[0]);
+    data.append("file", ref.current.files[0]);
+    data.append("filename", ref.current.value);
+
+    fetch("https://recipeaz.herokuapp.com/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.result);
+      });
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -107,13 +124,18 @@ const RecipeForm = () => {
                     Please enter a recipe name.
                   </Form.Control.Feedback>
                 </Form.Group>
-
+                <Form.Group>
+                  <input
+                    label="Recipe Image"
+                    type="file"
+                    ref={ref}
+                    onChange={handleUpload}
+                  />
+                </Form.Group>
                 <label htmlFor="basic-url">Image URL</label>
                 <InputGroup className="mb-3">
                   <InputGroup.Prepend>
-                    <InputGroup.Text id="basic-addon3">
-                      https://
-                    </InputGroup.Text>
+                    <InputGroup.Text>https://</InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
                     onChange={(event) => {
@@ -121,8 +143,7 @@ const RecipeForm = () => {
                     }}
                     type="text"
                     name="imageUrl"
-                    id="basic-url"
-                    aria-describedby="basic-addon3"
+                    aria-describedby="imageUrl"
                     required
                   />
                   <Form.Control.Feedback type="invalid">
@@ -130,7 +151,7 @@ const RecipeForm = () => {
                   </Form.Control.Feedback>
                 </InputGroup>
 
-                <Form.Group controlid="exampleForm.ControlTextarea1">
+                <Form.Group>
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     onChange={(event) => {
@@ -158,12 +179,11 @@ const RecipeForm = () => {
                         dispatch(addIngredient());
                       }
                     }}
-                    id="ingredients"
                     type="text"
                     placeholder="Add ingredients here"
                     name="ingredients"
                     aria-label="Ingredients list"
-                    aria-describedby="basic-addon2"
+                    aria-describedby="Ingredients list"
                     value={ingredient}
                     // required
                   />
@@ -193,7 +213,7 @@ const RecipeForm = () => {
                 <ListContainer>
                   <List />
                 </ListContainer>
-                <Form.Group controlid="exampleForm.ControlTextarea3">
+                <Form.Group>
                   <Form.Label>Directions</Form.Label>
                   <Form.Control
                     onChange={(event) => {
