@@ -31,7 +31,9 @@ const DropdownButton = (props) => {
         <Dropdown.Menu>
           <Dropdown.Item
             onClick={() => {
-              storage.ref().child(props.imageUrl).delete();
+              if (props.imageUrl.includes("firebase")) {
+                storage.ref().child(props.imageUrl).delete();
+              }
               itemRef.remove();
               dispatch(closeRecipe());
             }}
