@@ -1,10 +1,11 @@
 import os
 from bs4 import BeautifulSoup, NavigableString, Comment
-from flask import Flask, request, render_template, send_from_directory, jsonify, make_response, flash, redirect, url_for, session
+from flask import Flask, request, render_template, send_from_directory, jsonify, make_response, flash, redirect, url_for
 from PIL import Image
 import string
 import random
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 from flask_cors import CORS, cross_origin
 import logging
 import requests
@@ -16,11 +17,15 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('HELLO WORLD')
 
 UPLOAD_FOLDER = '/uploads'
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__, static_folder='client/build', static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-default_app = firebase_admin.initialize_app()
+cred = credentials.Certificate(
+    'sdk/recipeas-89ec5-firebase-adminsdk-wwz3t-88fcb0b6f8.json')
+default_app = firebase_admin.initialize_app(cred, {
+    'storageBucket': 'recipeas-89ec5.appspot.com'
+})
 
 
 @app.route("/api/")
@@ -62,31 +67,33 @@ def parse_site(site):
     return full_recipe
 
 
-@app.route('/upload/', methods=['POST'])
+@app.route('/upload', methods=['POST'])
 def fileUpload():
-    if not os.path.isdir(UPLOAD_FOLDER):
-        os.mkdir(UPLOAD_FOLDER)
     logger.info("welcome to upload`")
-    file = request.files['file']
+    file = request.files.get('file')
+    if not file:
+        return 'No file uploaded.', 400
     filename = random_filename(secure_filename(file.filename))
     image = Image.open(file)
     image.thumbnail((700, 700))
+    fs = FileStorage()
+    file_format = filename.split(".")[1].upper()
+    if file_format == "JPG":
+        file_format = 'JPEG'
+    image.save(fs, format=file_format)
     bucket = storage.bucket()
     blob = bucket.blob(filename)
-    blob.upload_from_string(
-        image,
-        content_type=f'image/{filename.split(".")[1]}'
-    )
-    session['uploadFilePath'] = destination
+    fs.seek(0)
+    blob.upload_from_file(fs)
     response = blob.public_url
-    return {'result': response}
+    return {'result': filename}
 
 
 def random_filename(filename):
     extension = filename.split(".")[1]
-    res = ''.join(random.choices(string.ascii_lowercase + string.digits, k=16))
-    print(res + extension)
-    return f'{res}.{extension}'
+    res = ''.join(random.choices(
+        string.ascii_lowercase + string.digits, k=16))
+    return "firebase"+res+"."+extension
 
 
 @app.route('/')

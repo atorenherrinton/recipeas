@@ -36,7 +36,6 @@ export const inputSlice = createSlice({
       } else if (state.fullRecipe.ingredients.includes(state.ingredient)) {
         state.ingredientExists = true;
       }
-      document.querySelector("#ingredients").value = "";
     },
     deleteIngredient: (state, action) => {
       state.fullRecipe.ingredients = [
@@ -62,14 +61,6 @@ export const inputSlice = createSlice({
     setHovered: (state) => {
       state.item.isHovered = !state.item.isHovered;
     },
-    setUrl: (state, action) => {
-      const { value, name } = action.payload;
-      state.fullRecipe = {
-        ...state.fullRecipe,
-        [name]: "https://" + value.replace("https://", ""),
-      };
-    },
-
     setFullRecipe: (state, action) => {
       const { value, name } = action.payload;
       state.fullRecipe = { ...state.fullRecipe, [name]: value };

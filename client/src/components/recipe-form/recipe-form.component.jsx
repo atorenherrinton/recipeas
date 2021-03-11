@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "../../firebase/firebase";
 import { selectUserId } from "../../slices/authenticate.slice";
@@ -8,7 +8,6 @@ import {
   addIngredient,
   setIngredient,
   setFullRecipe,
-  setUrl,
   resetIngredient,
   resetIngredientExists,
   selectFullRecipe,
@@ -20,7 +19,6 @@ import {
   deactivateForm,
   validateForm,
   invalidateForm,
-  selectIsValidated,
 } from "../../slices/form.slice";
 import {
   Container,
@@ -77,6 +75,12 @@ const RecipeForm = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        dispatch(
+          setFullRecipe({
+            ["name"]: "imageUrl",
+            ["value"]: data.result.toString(),
+          })
+        );
         console.log(data.result);
       });
   };
@@ -125,31 +129,13 @@ const RecipeForm = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
-                  <input
+                  <Form.File
                     label="Recipe Image"
                     type="file"
                     ref={ref}
                     onChange={handleUpload}
                   />
                 </Form.Group>
-                <label htmlFor="basic-url">Image URL</label>
-                <InputGroup className="mb-3">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text>https://</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    onChange={(event) => {
-                      dispatch(setUrl(event.target));
-                    }}
-                    type="text"
-                    name="imageUrl"
-                    aria-describedby="imageUrl"
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please enter an image URL.
-                  </Form.Control.Feedback>
-                </InputGroup>
 
                 <Form.Group>
                   <Form.Label>Description</Form.Label>

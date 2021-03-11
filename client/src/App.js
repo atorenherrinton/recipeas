@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import withFirebaseAuth from "react-with-firebase-auth";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 import { loadRecipes } from "./slices/recipe.slice";
 import { setUserId } from "./slices/authenticate.slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const App = (props) => {
   const { user } = props;
@@ -28,6 +28,7 @@ const App = (props) => {
       itemsRef.on("value", (snapshot) => {
         let items = snapshot.val();
         let newState = [];
+
         for (let item in items) {
           newState.push({
             id: item,
@@ -43,7 +44,7 @@ const App = (props) => {
     }
   });
   return (
-    <div>
+    <div style={{ overflowX: "hidden" }}>
       <Header />
       <Body />
     </div>

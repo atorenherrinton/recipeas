@@ -1,23 +1,34 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import firebase from "../../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { openRecipe } from "../../slices/recipe.slice";
 import { Card, Button } from "react-bootstrap";
-
-import { MoreHoriz } from "@material-ui/icons";
 import DropdownButton from "../dropdown/dropdown.component";
 
 const SavedRecipeCard = (props) => {
   const dispatch = useDispatch();
+  const [image, setImage] = useState("");
+  var storage = firebase.storage();
+
+  if (props.imageUrl.includes("firebase")) {
+    storage
+      .ref()
+      .child(props.imageUrl)
+      .getDownloadURL()
+      .then((url) => {
+        setImage(url);
+      });
+  }
+
   return (
     <Card>
-      <DropdownButton id={props.id} />
+      <DropdownButton imageUrl={props.imageUrl} id={props.id} />
       <Card.Img
         style={{ height: "20rem", objectFit: "cover" }}
         variant="top"
-        src={props.imageUrl}
+        src={image ? image : props.imageUrl}
       />
 
       <Card.Body>

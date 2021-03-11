@@ -6,9 +6,23 @@ import { closeRecipe } from "../../slices/recipe.slice";
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import DropdownButton from "../dropdown/dropdown.component";
 import Ingredient from "../ingredient/ingredient.component";
+import firebase from "../../firebase/firebase";
 
 const FullRecipe = (props) => {
   const dispatch = useDispatch();
+  const [image, setImage] = useState("");
+  var storage = firebase.storage();
+  // Get the download URL
+
+  if (props.imageUrl.includes("firebase")) {
+    storage
+      .ref()
+      .child(props.imageUrl)
+      .getDownloadURL()
+      .then((url) => {
+        setImage(url);
+      });
+  }
 
   return (
     <Card>
@@ -16,7 +30,7 @@ const FullRecipe = (props) => {
       <Card.Img
         style={{ height: "25rem", objectFit: "cover" }}
         variant="top"
-        src={props.imageUrl}
+        src={image ? image : props.imageUrl}
       />
       <Card.Body>
         <h4>{props.title}</h4>

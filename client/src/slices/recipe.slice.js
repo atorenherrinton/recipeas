@@ -9,6 +9,7 @@ export const recipeSlice = createSlice({
       isOpen: false,
       fullRecipe: {},
     },
+    imageUrl: "",
     recipes: [],
   },
   reducers: {
@@ -23,6 +24,7 @@ export const recipeSlice = createSlice({
       state.recipe.isOpen = false;
       state.recipe.fullRecipe = "";
     },
+
   },
 });
 

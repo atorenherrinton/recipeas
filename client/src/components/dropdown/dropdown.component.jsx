@@ -11,6 +11,7 @@ import { ButtonContainer } from "./dropdown.styles";
 const DropdownButton = (props) => {
   const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
+  var storage = firebase.storage();
   const itemRef = firebase
     .database()
     .ref("users")
@@ -30,6 +31,7 @@ const DropdownButton = (props) => {
         <Dropdown.Menu>
           <Dropdown.Item
             onClick={() => {
+              storage.ref().child(props.imageUrl).delete();
               itemRef.remove();
               dispatch(closeRecipe());
             }}
