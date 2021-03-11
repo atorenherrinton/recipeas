@@ -68,6 +68,7 @@ def parse_site(site):
 
 
 @app.route('/upload', methods=['POST'])
+@cross_origin()
 def fileUpload():
     logger.info("welcome to upload`")
     file = request.files.get('file')
