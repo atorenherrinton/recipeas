@@ -19,7 +19,7 @@ logger = logging.getLogger('HELLO WORLD')
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-app = Flask(__name__, static_folder='client/build', static_url_path='')
+app = Flask(__name__, static_folder='client/build', static_url_path='/')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 cred = credentials.Certificate(
     'sdk/recipeas-89ec5-firebase-adminsdk-wwz3t-88fcb0b6f8.json')
@@ -105,5 +105,5 @@ def serve():
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)
     app.debug = True
-    app.run()
+    app.run(host='0.0.0.0')
 
