@@ -69,7 +69,7 @@ const RecipeForm = () => {
     data.append("file", ref.current.files[0]);
     data.append("filename", ref.current.value);
 
-    fetch("https://recipeaz.herokuapp.com/upload", {
+    fetch("https://recipeas1.herokuapp.com/upload", {
       method: "POST",
       body: data,
     })

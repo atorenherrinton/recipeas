@@ -22,7 +22,7 @@ const RecipeUrl = () => {
 
   const handleSubmit = () => {
     const url_req_string =
-      "https://recipeaz.herokuapp.com/api/" + "?url=" + url;
+      "https://recipeas1.herokuapp.com/api/" + "?url=" + url;
     fetch(url_req_string)
       .then((res) => res.json())
       .then((data) => {
