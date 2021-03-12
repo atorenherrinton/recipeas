@@ -13,12 +13,6 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import storage
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger('HELLO WORLD')
-
-UPLOAD_FOLDER = '/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
 app = Flask(__name__, static_folder='client/build', static_url_path='/')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 cred = credentials.Certificate(
@@ -26,6 +20,13 @@ cred = credentials.Certificate(
 default_app = firebase_admin.initialize_app(cred, {
     'storageBucket': 'recipeas-89ec5.appspot.com'
 })
+cors = CORS(app)
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('HELLO WORLD')
+
+UPLOAD_FOLDER = '/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
 @app.route("/api/")
@@ -106,4 +107,3 @@ if __name__ == "__main__":
     app.secret_key = os.urandom(24)
     app.debug = True
     app.run(host='0.0.0.0')
-
