@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "../../firebase/firebase";
 import { selectUserId } from "../../slices/authenticate.slice";
@@ -30,6 +30,8 @@ import {
   FormControl,
   Button,
   Alert,
+  Spinner,
+  Badge,
 } from "react-bootstrap";
 import List from "../list/list.component";
 
@@ -44,11 +46,15 @@ import { Add } from "@material-ui/icons";
 
 const RecipeForm = () => {
   var storage = firebase.storage();
+
   const dispatch = useDispatch();
   const ref = useRef(null);
   const userId = useSelector(selectUserId);
   const ingredient = useSelector(selectIngredient);
   const ingredientExists = useSelector(selectIngredientExists);
+  const [uploading, setUploading] = useState(false);
+  const [uploadDone, setUploadDone] = useState(false);
+
   if (ingredientExists) {
     setTimeout(() => {
       dispatch(resetIngredient());
@@ -65,8 +71,10 @@ const RecipeForm = () => {
 
   const handleUpload = (event) => {
     event.preventDefault();
+    setUploading(true);
     if (fullRecipe.imageUrl) {
       storage.ref().child(fullRecipe.imageUrl).delete();
+      setUploadDone(false);
     }
     const data = new FormData();
     console.log(ref.current.files[0]);
@@ -79,7 +87,6 @@ const RecipeForm = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.result)
         dispatch(
           setFullRecipe({
             ["name"]: "imageUrl",
@@ -87,6 +94,9 @@ const RecipeForm = () => {
           })
         );
       });
+      setUploading(false);
+    setUploadDone(true);
+    
   };
 
   const handleSubmit = (event) => {
@@ -132,13 +142,27 @@ const RecipeForm = () => {
                     Please enter a recipe name.
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group>
+
+                <Form.Group style={{ display: "flex" }}>
                   <Form.File
                     label="Recipe Image"
                     type="file"
                     ref={ref}
                     onChange={handleUpload}
                   />
+                  <div
+                    style={{
+                      float: "right",
+                      marginLeft: "14rem",
+                      marginTop: "2.25rem",
+                    }}
+                  >
+                    {uploading ? (
+                      <Spinner animation="border" size="sm" />
+                    ) : uploadDone ? (
+                      <Badge variant="info">Uploaded</Badge>
+                    ) : null}
+                  </div>
                 </Form.Group>
 
                 <Form.Group>

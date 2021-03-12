@@ -24,7 +24,6 @@ export const recipeSlice = createSlice({
       state.recipe.isOpen = false;
       state.recipe.fullRecipe = "";
     },
-
   },
 });
 
