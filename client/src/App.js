@@ -1,17 +1,15 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import withFirebaseAuth from "react-with-firebase-auth";
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseApp from "./firebase/firebase";
-import Header from "./components/header/header.component";
-import Body from "./components/body/body.component";
-import { useEffect } from "react";
-
+import { useDispatch } from "react-redux";
 import { loadRecipes } from "./slices/recipe.slice";
 import { setUserId } from "./slices/authenticate.slice";
-import { useDispatch, useSelector } from "react-redux";
+import Header from "./components/header/header";
+import Body from "./components/body/body";
 
 const App = (props) => {
   const { user } = props;

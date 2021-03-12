@@ -1,8 +1,8 @@
 /** @format */
 
-import React, { useRef, useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef, useState } from "react";
 import firebase from "../../firebase/firebase";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUserId } from "../../slices/authenticate.slice";
 import {
   addIngredient,
@@ -33,14 +33,7 @@ import {
   Spinner,
   Badge,
 } from "react-bootstrap";
-import List from "../list/list.component";
-
-import {
-  ButtonGroupContainer,
-  ButtonContainer,
-  AlertContainer,
-  ListContainer,
-} from "./recipe-form.styles";
+import List from "../list/list";
 
 import { Add } from "@material-ui/icons";
 
@@ -94,9 +87,8 @@ const RecipeForm = () => {
           })
         );
       });
-      setUploading(false);
+    setUploading(false);
     setUploadDone(true);
-    
   };
 
   const handleSubmit = (event) => {
@@ -218,15 +210,11 @@ const RecipeForm = () => {
                   </Form.Control.Feedback>
                 </InputGroup>
                 {ingredientExists ? (
-                  <AlertContainer>
-                    <Alert variant="warning">
-                      You've already entered <strong>{ingredient}</strong>
-                    </Alert>
-                  </AlertContainer>
+                  <Alert style={{ marginTop: "0.75rem" }} variant="warning">
+                    You've already entered <strong>{ingredient}</strong>
+                  </Alert>
                 ) : null}
-                <ListContainer>
-                  <List />
-                </ListContainer>
+                <List style={{ marginTop: "0.75rem" }} />
                 <Form.Group>
                   <Form.Label>Directions</Form.Label>
                   <Form.Control
@@ -243,26 +231,26 @@ const RecipeForm = () => {
                     Please add the directions
                   </Form.Control.Feedback>
                 </Form.Group>
-                <ButtonGroupContainer>
-                  <ButtonContainer>
-                    <Button
-                      onClick={() => {
-                        if (fullRecipe.imageUrl) {
-                          storage.ref().child(fullRecipe.imageUrl).delete();
-                        }
-                        dispatch(validateForm());
-                        dispatch(deactivateForm());
-                        dispatch(clearForm());
-                      }}
-                      variant="outline-secondary"
-                    >
-                      Cancel
-                    </Button>
-                  </ButtonContainer>
+                <div style={{ float: "right", display: "flex" }}>
+                  <Button
+                    style={{ marginRight: "0.5rem" }}
+                    onClick={() => {
+                      if (fullRecipe.imageUrl) {
+                        storage.ref().child(fullRecipe.imageUrl).delete();
+                      }
+                      dispatch(validateForm());
+                      dispatch(deactivateForm());
+                      dispatch(clearForm());
+                    }}
+                    variant="outline-secondary"
+                  >
+                    Cancel
+                  </Button>
+
                   <Button variant="outline-primary" type="submit">
                     Save
                   </Button>
-                </ButtonGroupContainer>
+                </div>
               </Form>
             </Card.Body>
           </Card>
