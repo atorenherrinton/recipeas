@@ -13,7 +13,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import storage
 
-app = Flask(__name__, static_folder='client/build', static_url_path='/')
+app = Flask(__name__, static_folder='client/build', static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 cred = credentials.Certificate(
     'sdk/recipeas-89ec5-firebase-adminsdk-wwz3t-88fcb0b6f8.json')
