@@ -26,7 +26,7 @@ const FullRecipe = (props) => {
 
   return (
     <Card>
-      <DropdownButton id={props.id} />
+      <DropdownButton imageUrl={props.imageUrl} id={props.id} />
       <Card.Img
         style={{ height: "25rem", objectFit: "cover" }}
         variant="top"

@@ -13,7 +13,6 @@ client/node_modules
 
 # production
 
-
 # misc
 .DS_Store
 .env.local

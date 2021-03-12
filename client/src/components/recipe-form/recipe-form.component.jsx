@@ -79,6 +79,7 @@ const RecipeForm = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.result)
         dispatch(
           setFullRecipe({
             ["name"]: "imageUrl",
