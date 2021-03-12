@@ -8,7 +8,12 @@ client/node_modules
 # testing
 /coverage
 
+# testing
+/coverage
+
 # production
+client/build/
+sdk/
 
 # misc
 .DS_Store
