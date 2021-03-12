@@ -43,6 +43,7 @@ import {
 import { Add } from "@material-ui/icons";
 
 const RecipeForm = () => {
+  var storage = firebase.storage();
   const dispatch = useDispatch();
   const ref = useRef(null);
   const userId = useSelector(selectUserId);
@@ -64,6 +65,9 @@ const RecipeForm = () => {
 
   const handleUpload = (event) => {
     event.preventDefault();
+    if (fullRecipe.imageUrl) {
+      storage.ref().child(fullRecipe.imageUrl).delete();
+    }
     const data = new FormData();
     console.log(ref.current.files[0]);
     data.append("file", ref.current.files[0]);
@@ -81,7 +85,6 @@ const RecipeForm = () => {
             ["value"]: data.result.toString(),
           })
         );
-        console.log(data.result);
       });
   };
 
@@ -219,6 +222,9 @@ const RecipeForm = () => {
                   <ButtonContainer>
                     <Button
                       onClick={() => {
+                        if (fullRecipe.imageUrl) {
+                          storage.ref().child(fullRecipe.imageUrl).delete();
+                        }
                         dispatch(validateForm());
                         dispatch(deactivateForm());
                         dispatch(clearForm());
